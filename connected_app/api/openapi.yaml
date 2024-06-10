@@ -498,6 +498,11 @@ components:
       type: object
     connectedAppRespExt_allOf:
       properties:
+        org_id:
+          description: the organization where the connected app is created
+          example: bb1f55d6-563z-4f60-845c-207286484re1
+          title: org_id
+          type: string
         client_id:
           description: connected app client id
           example: 7d72415f862044199be3b739848e6adb
