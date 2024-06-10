@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**DeleteConnectedApp**](DefaultApi.md#DeleteConnectedApp) | **Delete** /organizations/{orgId}/connectedApplications/{connAppId} | 
 [**GetAllConnectedApps**](DefaultApi.md#GetAllConnectedApps) | **Get** /connectedApplications | 
 [**GetConnectedApp**](DefaultApi.md#GetConnectedApp) | **Get** /organizations/{orgId}/connectedApplications/{connAppId} | 
+[**GetConnectedAppByIdOnly**](DefaultApi.md#GetConnectedAppByIdOnly) | **Get** /connectedApplications/{connAppId} | 
 [**GetConnectedAppScopes**](DefaultApi.md#GetConnectedAppScopes) | **Get** /organizations/{orgId}/connectedApplications/{connAppId}/scopes | 
 [**UpdateConnectedApp**](DefaultApi.md#UpdateConnectedApp) | **Patch** /organizations/{orgId}/connectedApplications/{connAppId} | 
 [**UpdateConnectedAppScopes**](DefaultApi.md#UpdateConnectedAppScopes) | **Put** /organizations/{orgId}/connectedApplications/{connAppId}/scopes | 
@@ -285,6 +286,78 @@ Other parameters are passed through a pointer to a apiGetConnectedAppRequest str
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+
+ **includeUsage** | **bool** | flag to indicate whether to return usage statistics | 
+
+### Return type
+
+[**ConnectedAppRespExt**](ConnectedAppRespExt.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetConnectedAppByIdOnly
+
+> ConnectedAppRespExt GetConnectedAppByIdOnly(ctx, connAppId).IncludeUsage(includeUsage).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/mulesoft-anypoint/anypoint-client-go/connected_app"
+)
+
+func main() {
+    connAppId := "connAppId_example" // string | The ID of the connected app
+    includeUsage := true // bool | flag to indicate whether to return usage statistics (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.DefaultApi.GetConnectedAppByIdOnly(context.Background(), connAppId).IncludeUsage(includeUsage).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.GetConnectedAppByIdOnly``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetConnectedAppByIdOnly`: ConnectedAppRespExt
+    fmt.Fprintf(os.Stdout, "Response from `DefaultApi.GetConnectedAppByIdOnly`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**connAppId** | **string** | The ID of the connected app | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetConnectedAppByIdOnlyRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
 
  **includeUsage** | **bool** | flag to indicate whether to return usage statistics | 
 
