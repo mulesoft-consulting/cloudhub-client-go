@@ -354,8 +354,8 @@ components:
           path: path
           id: id
         name: name
-        type: type
         expirationDate: expirationDate
+        target: target
       properties:
         name:
           type: string
@@ -363,7 +363,7 @@ components:
           $ref: '#/components/schemas/Meta'
         expirationDate:
           type: string
-        type:
+        target:
           type: string
       type: object
     TlsContextDetails:

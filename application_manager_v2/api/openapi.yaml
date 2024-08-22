@@ -1,0 +1,1402 @@
+openapi: 3.0.0
+info:
+  description: |
+    The Application Manager API exists to provide Mule Application management operations from Anypoint Control Planes to any Runtime Plane, with capabilities that include:
+      - Deploying a Mule Application or API to a Mule Runtime
+      - Scaling up or down a running application
+      - Managing application settings (ie: properties)
+      - Deleting a Mule Application Deployment
+      - Changing artifact version or configurations of a deployment
+      - Starting, Stopping or Restarting applications
+      - etc.
+    This API currently supports deployments to Runtime Fabric and CloudHub 2.0 targets only.
+  title: Deployment
+  version: 1.0.0
+servers:
+- description: Anypoint Cloudhub
+  url: https://anypoint.mulesoft.com/amc/application-manager/api/v2
+- description: Anypoint Cloudhub EU
+  url: https://eu1.anypoint.mulesoft.com/amc/application-manager/api/v2
+- description: Anypoint Cloudhub GOV
+  url: https://gov.anypoint.mulesoft.com/amc/application-manager/api/v2
+security:
+- bearerAuth: []
+paths:
+  /organizations/{orgId}/environments/{envId}/deployments:
+    get:
+      description: "Retrieves a list of deployments for the specified query. If the\
+        \ query returns no results, then an empty list is returned."
+      operationId: GetAllDeployments
+      parameters:
+      - description: The ID of the organization in GUID format
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The ID of the environment in GUID format
+        explode: false
+        in: path
+        name: envId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The provider of the target the deployments are deployed to.
+        explode: true
+        in: query
+        name: provider
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: The id of the target the deployments are deployed to.
+        explode: true
+        in: query
+        name: targetId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Offset used to retrieve the results.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Maximum records to retrieve.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentResponsePaged'
+          description: GET all Deployments Detail Response
+      summary: List deployments
+    post:
+      description: Deploys a new application with the provided data.
+      operationId: PostDeployment
+      parameters:
+      - description: The ID of the organization in GUID format
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The ID of the environment in GUID format
+        explode: false
+        in: path
+        name: envId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeploymentRequestBody'
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "404":
+          description: Deployment not found
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+          description: POST - Deployment Detail Response
+      summary: Create deployment
+  /organizations/{orgId}/environments/{envId}/deployments/{deploymentId}:
+    delete:
+      description: Deletes the specified deploymentId.
+      operationId: DeleteDeployment
+      parameters:
+      - description: The ID of the organization in GUID format
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The ID of the environment in GUID format
+        explode: false
+        in: path
+        name: envId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The ID of the deployment in GUID format.
+        explode: false
+        in: path
+        name: deploymentId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "204":
+          description: Deployment deleted
+        "404":
+          description: Deployment not found
+      summary: Delete deployment
+    get:
+      description: "Retrieves a specific deployment by in a given org, environment\
+        \ and with a specific id."
+      operationId: GetDeploymentById
+      parameters:
+      - description: The ID of the organization in GUID format
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The ID of the environment in GUID format
+        explode: false
+        in: path
+        name: envId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The ID of the deployment in GUID format.
+        explode: false
+        in: path
+        name: deploymentId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "404":
+          description: Deployment not found
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+          description: GET a Deployment Detail Response
+      summary: Get a deploymnt
+    patch:
+      description: Updates an existing deployment with the provided details.
+      operationId: PatchDeployment
+      parameters:
+      - description: The ID of the organization in GUID format
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The ID of the environment in GUID format
+        explode: false
+        in: path
+        name: envId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The ID of the deployment in GUID format.
+        explode: false
+        in: path
+        name: deploymentId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeploymentRequestBody'
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+          description: POST - Deployment Detail Response
+        "404":
+          description: Deployment not found
+      summary: Patch a deployment
+components:
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+    DeploymentNotFoundError:
+      description: Deployment not found
+    DeleteDeployment:
+      description: Deployment deleted
+    PostDeployment:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Deployment'
+      description: POST - Deployment Detail Response
+    GetAllDeployments:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeploymentResponsePaged'
+      description: GET all Deployments Detail Response
+    GetDeployment:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Deployment'
+      description: GET a Deployment Detail Response
+    PatchDeployment:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Deployment'
+      description: GET - Deployment Detail Response
+  schemas:
+    Deployment:
+      example:
+        application:
+          desiredState: desiredState
+          ref:
+            groupId: groupId
+            classifier: classifier
+            artifactId: artifactId
+            packaging: packaging
+            type: type
+            version: version
+          resourceAssets: "{}"
+          configuration:
+            mule.agent.logging.service:
+              artifactName: artifactName
+              scopeLoggingConfigurations:
+              - logLevel: logLevel
+                scope: scope
+              - logLevel: logLevel
+                scope: scope
+            mule.agent.application.properties.service:
+              applicationName: applicationName
+              properties: "{}"
+              secureProperties: "{}"
+            mule.agent.scheduling.service:
+              schedulers:
+              - expression: expression
+                name: name
+                startDelay: startDelay
+                timeZone: timeZone
+                type: type
+                flowName: flowName
+                enabled: true
+                timeUnit: NANOSECONDS
+                frequency: frequency
+              - expression: expression
+                name: name
+                startDelay: startDelay
+                timeZone: timeZone
+                type: type
+                flowName: flowName
+                enabled: true
+                timeUnit: NANOSECONDS
+                frequency: frequency
+              applicationName: applicationName
+          objectStoreV2Enabled: true
+          integrations:
+            services:
+              objectStoreV2:
+                enabled: true
+          vCores: 1.4658129805029452
+          status: RUNNING
+        lastSuccessfulVersion: lastSuccessfulVersion
+        lastModifiedDate: 6
+        replicas:
+        - reason: reason
+          currentDeploymentVersion: currentDeploymentVersion
+          id: id
+          state: state
+          deploymentLocation: deploymentLocation
+        - reason: reason
+          currentDeploymentVersion: currentDeploymentVersion
+          id: id
+          state: state
+          deploymentLocation: deploymentLocation
+        name: name
+        desiredVersion: desiredVersion
+        id: id
+        creationDate: 0
+        status: status
+        target:
+          targetId: targetId
+          provider: provider
+          replicas: 2
+          deploymentSettings:
+            jvm:
+              args: args
+            sidecars:
+              anypoint-monitoring:
+                image: image
+                resources:
+                  memory:
+                    reserved: reserved
+                    limit: limit
+                  cpu:
+                    reserved: reserved
+                    limit: limit
+            disableAmLogForwarding: true
+            clustered: true
+            forwardSslSession: true
+            runtime:
+              releaseChannel: releaseChannel
+              java: java
+              version: 4.6.0:40-java17
+            resources:
+              memory:
+                reserved: reserved
+                limit: limit
+              cpu:
+                reserved: reserved
+                limit: limit
+              storage:
+                reserved: reserved
+                limit: limit
+            enforceDeployingReplicasAcrossNodes: true
+            generateDefaultPublicUrl: true
+            anypointMonitoringScope: anypointMonitoringScope
+            updateStrategy: updateStrategy
+            persistentObjectStore: true
+            http:
+              inbound:
+                forwardSslSession: true
+                publicUrl: publicUrl
+                lastMileSecurity: true
+                internalUrl: internalUrl
+                pathRewrite: pathRewrite
+                uniqueId: uniqueId
+            lastMileSecurity: true
+            disableExternalLogForwarding: true
+            autoscaling:
+              maxReplicas: 5
+              minReplicas: 5
+              enabled: true
+            tracingEnabled: true
+      properties:
+        id:
+          title: id
+          type: string
+        name:
+          title: name
+          type: string
+        creationDate:
+          format: int64
+          title: creationDate
+          type: integer
+        lastModifiedDate:
+          format: int64
+          title: lastModifiedDate
+          type: integer
+        desiredVersion:
+          title: desiredVersion
+          type: string
+        replicas:
+          items:
+            $ref: '#/components/schemas/Replicas'
+          title: Replicas
+          type: array
+        status:
+          type: string
+        application:
+          $ref: '#/components/schemas/Application'
+        target:
+          $ref: '#/components/schemas/Target'
+        lastSuccessfulVersion:
+          nullable: true
+          type: string
+      title: Deployment
+      type: object
+    Target:
+      description: The details of the target to perform the deployment on.
+      example:
+        targetId: targetId
+        provider: provider
+        replicas: 2
+        deploymentSettings:
+          jvm:
+            args: args
+          sidecars:
+            anypoint-monitoring:
+              image: image
+              resources:
+                memory:
+                  reserved: reserved
+                  limit: limit
+                cpu:
+                  reserved: reserved
+                  limit: limit
+          disableAmLogForwarding: true
+          clustered: true
+          forwardSslSession: true
+          runtime:
+            releaseChannel: releaseChannel
+            java: java
+            version: 4.6.0:40-java17
+          resources:
+            memory:
+              reserved: reserved
+              limit: limit
+            cpu:
+              reserved: reserved
+              limit: limit
+            storage:
+              reserved: reserved
+              limit: limit
+          enforceDeployingReplicasAcrossNodes: true
+          generateDefaultPublicUrl: true
+          anypointMonitoringScope: anypointMonitoringScope
+          updateStrategy: updateStrategy
+          persistentObjectStore: true
+          http:
+            inbound:
+              forwardSslSession: true
+              publicUrl: publicUrl
+              lastMileSecurity: true
+              internalUrl: internalUrl
+              pathRewrite: pathRewrite
+              uniqueId: uniqueId
+          lastMileSecurity: true
+          disableExternalLogForwarding: true
+          autoscaling:
+            maxReplicas: 5
+            minReplicas: 5
+            enabled: true
+          tracingEnabled: true
+      properties:
+        provider:
+          description: The cloud provider the target belongs to.
+          title: TargetProvider
+          type: string
+        targetId:
+          description: The unique identifier of the target.
+          title: TargetId
+          type: string
+        deploymentSettings:
+          $ref: '#/components/schemas/DeploymentSettings'
+        replicas:
+          description: The number of replicas of the deployment.
+          type: integer
+      title: Target
+      type: object
+    DeploymentSettings:
+      description: The settings of the target for the deployment to perform.
+      example:
+        jvm:
+          args: args
+        sidecars:
+          anypoint-monitoring:
+            image: image
+            resources:
+              memory:
+                reserved: reserved
+                limit: limit
+              cpu:
+                reserved: reserved
+                limit: limit
+        disableAmLogForwarding: true
+        clustered: true
+        forwardSslSession: true
+        runtime:
+          releaseChannel: releaseChannel
+          java: java
+          version: 4.6.0:40-java17
+        resources:
+          memory:
+            reserved: reserved
+            limit: limit
+          cpu:
+            reserved: reserved
+            limit: limit
+          storage:
+            reserved: reserved
+            limit: limit
+        enforceDeployingReplicasAcrossNodes: true
+        generateDefaultPublicUrl: true
+        anypointMonitoringScope: anypointMonitoringScope
+        updateStrategy: updateStrategy
+        persistentObjectStore: true
+        http:
+          inbound:
+            forwardSslSession: true
+            publicUrl: publicUrl
+            lastMileSecurity: true
+            internalUrl: internalUrl
+            pathRewrite: pathRewrite
+            uniqueId: uniqueId
+        lastMileSecurity: true
+        disableExternalLogForwarding: true
+        autoscaling:
+          maxReplicas: 5
+          minReplicas: 5
+          enabled: true
+        tracingEnabled: true
+      properties:
+        clustered:
+          title: DeploymentSettingsClustered
+          type: boolean
+        enforceDeployingReplicasAcrossNodes:
+          title: EnforceDeployingReplicasAcrossNodes
+          type: boolean
+        http:
+          $ref: '#/components/schemas/Http'
+        jvm:
+          $ref: '#/components/schemas/Jvm'
+        runtime:
+          $ref: '#/components/schemas/Runtime'
+        autoscaling:
+          $ref: '#/components/schemas/Autoscaling'
+        updateStrategy:
+          title: UpdateStrategy
+          type: string
+        resources:
+          $ref: '#/components/schemas/Resources'
+        lastMileSecurity:
+          title: LastMileSecurity
+          type: boolean
+        disableAmLogForwarding:
+          title: DisableAmLogForwarding
+          type: boolean
+        persistentObjectStore:
+          title: PersistentObjectStore
+          type: boolean
+        anypointMonitoringScope:
+          title: AnypointMonitoringScope
+          type: string
+        sidecars:
+          $ref: '#/components/schemas/Sidecars'
+        forwardSslSession:
+          title: ForwardSslSession
+          type: boolean
+        disableExternalLogForwarding:
+          title: DisableExternalLogForwarding
+          type: boolean
+        tracingEnabled:
+          description: |
+            Exposes tracing information in OpenTelemetry standard from Mule Runtime into all APM solutions. Supported only on:
+              * Mule Runtime versions 4.6 and above.
+              * RTF agent 2.6.33 and above.
+            Learn more at https://docs.mulesoft.com/cloudhub-2/ch2-deploy-private-space#enable-trace-data-collection
+          title: TracingEnabled
+          type: boolean
+        generateDefaultPublicUrl:
+          title: GenerateDefaultPublicUrl
+          type: boolean
+      title: DeploymentSettings
+      type: object
+    Application:
+      description: The details of the application to deploy.
+      example:
+        desiredState: desiredState
+        ref:
+          groupId: groupId
+          classifier: classifier
+          artifactId: artifactId
+          packaging: packaging
+          type: type
+          version: version
+        resourceAssets: "{}"
+        configuration:
+          mule.agent.logging.service:
+            artifactName: artifactName
+            scopeLoggingConfigurations:
+            - logLevel: logLevel
+              scope: scope
+            - logLevel: logLevel
+              scope: scope
+          mule.agent.application.properties.service:
+            applicationName: applicationName
+            properties: "{}"
+            secureProperties: "{}"
+          mule.agent.scheduling.service:
+            schedulers:
+            - expression: expression
+              name: name
+              startDelay: startDelay
+              timeZone: timeZone
+              type: type
+              flowName: flowName
+              enabled: true
+              timeUnit: NANOSECONDS
+              frequency: frequency
+            - expression: expression
+              name: name
+              startDelay: startDelay
+              timeZone: timeZone
+              type: type
+              flowName: flowName
+              enabled: true
+              timeUnit: NANOSECONDS
+              frequency: frequency
+            applicationName: applicationName
+        objectStoreV2Enabled: true
+        integrations:
+          services:
+            objectStoreV2:
+              enabled: true
+        vCores: 1.4658129805029452
+        status: RUNNING
+      properties:
+        status:
+          description: The status of the application.
+          enum:
+          - RUNNING
+          - NOT_RUNNING
+          type: string
+        desiredState:
+          description: The desired state of the application.
+          nullable: true
+          type: string
+        ref:
+          $ref: '#/components/schemas/Ref'
+        configuration:
+          $ref: '#/components/schemas/AppConfiguration'
+        resourceAssets:
+          type: object
+        vCores:
+          description: The application allocated virtual cores.
+          type: number
+        integrations:
+          $ref: '#/components/schemas/Application_integrations'
+        objectStoreV2Enabled:
+          type: boolean
+      title: Application
+      type: object
+    AppConfiguration:
+      description: The configuration of the application.
+      example:
+        mule.agent.logging.service:
+          artifactName: artifactName
+          scopeLoggingConfigurations:
+          - logLevel: logLevel
+            scope: scope
+          - logLevel: logLevel
+            scope: scope
+        mule.agent.application.properties.service:
+          applicationName: applicationName
+          properties: "{}"
+          secureProperties: "{}"
+        mule.agent.scheduling.service:
+          schedulers:
+          - expression: expression
+            name: name
+            startDelay: startDelay
+            timeZone: timeZone
+            type: type
+            flowName: flowName
+            enabled: true
+            timeUnit: NANOSECONDS
+            frequency: frequency
+          - expression: expression
+            name: name
+            startDelay: startDelay
+            timeZone: timeZone
+            type: type
+            flowName: flowName
+            enabled: true
+            timeUnit: NANOSECONDS
+            frequency: frequency
+          applicationName: applicationName
+      properties:
+        mule.agent.application.properties.service:
+          $ref: '#/components/schemas/MuleAgentAppPropService'
+        mule.agent.logging.service:
+          $ref: '#/components/schemas/MuleAgentLoggingService'
+        mule.agent.scheduling.service:
+          $ref: '#/components/schemas/MuleAgentSchedulingService'
+      title: AppConfiguration
+      type: object
+    Replicas:
+      description: The list of replicas for the specified deployment.
+      example:
+        reason: reason
+        currentDeploymentVersion: currentDeploymentVersion
+        id: id
+        state: state
+        deploymentLocation: deploymentLocation
+      properties:
+        id:
+          description: The id of the replica in RTF
+          type: string
+        state:
+          description: The current state of the replica
+          type: string
+        deploymentLocation:
+          description: The node id in which the replica is deployed.
+          type: string
+        currentDeploymentVersion:
+          description: The version deployed in the replica.
+          type: string
+        reason:
+          description: "In case of an error, it should provide information about the\
+            \ root cause."
+          type: string
+      title: Replicas
+      type: object
+    Services:
+      example:
+        objectStoreV2:
+          enabled: true
+      properties:
+        objectStoreV2:
+          $ref: '#/components/schemas/ObjectStoreV2'
+      type: object
+    ObjectStoreV2:
+      example:
+        enabled: true
+      properties:
+        enabled:
+          type: boolean
+      type: object
+    Ref:
+      example:
+        groupId: groupId
+        classifier: classifier
+        artifactId: artifactId
+        packaging: packaging
+        type: type
+        version: version
+      properties:
+        classifier:
+          nullable: true
+          type: string
+        type:
+          nullable: true
+          type: string
+        groupId:
+          description: The groupId of the application.
+          type: string
+        artifactId:
+          description: The artifactId of the application.
+          type: string
+        version:
+          description: The version of the application.
+          type: string
+        packaging:
+          description: The packaging of the application.
+          type: string
+      type: object
+    State:
+      enum:
+      - PARTIALLY_STARTED
+      - DEPLOYMENT_FAILED
+      - STARTING
+      - STARTED
+      - STOPPING
+      - STOPPED
+      - UNDEPLOYING
+      - UNDEPLOYED
+      - UPDATED
+      - APPLIED
+      - APPLYING
+      - FAILED
+      - DELETED
+      type: string
+    DeploymentResponsePaged:
+      example:
+        total: 0
+        items:
+        - currentRuntimeVersion: currentRuntimeVersion
+          lastSuccessfulRuntimeVersion: lastSuccessfulRuntimeVersion
+          application:
+            status: status
+          lastModifiedDate: 1
+          name: name
+          id: id
+          creationDate: 6
+          target:
+            targetId: targetId
+            provider: provider
+          status: status
+        - currentRuntimeVersion: currentRuntimeVersion
+          lastSuccessfulRuntimeVersion: lastSuccessfulRuntimeVersion
+          application:
+            status: status
+          lastModifiedDate: 1
+          name: name
+          id: id
+          creationDate: 6
+          target:
+            targetId: targetId
+            provider: provider
+          status: status
+      properties:
+        total:
+          title: total
+          type: integer
+        items:
+          items:
+            $ref: '#/components/schemas/deploymentItem'
+          title: deploymentItems
+          type: array
+      title: DeploymentResponsePaged
+      type: object
+    DeploymentRequestBody:
+      example:
+        application:
+          desiredState: desiredState
+          ref:
+            groupId: groupId
+            classifier: classifier
+            artifactId: artifactId
+            packaging: packaging
+            type: type
+            version: version
+          resourceAssets: "{}"
+          configuration:
+            mule.agent.logging.service:
+              artifactName: artifactName
+              scopeLoggingConfigurations:
+              - logLevel: logLevel
+                scope: scope
+              - logLevel: logLevel
+                scope: scope
+            mule.agent.application.properties.service:
+              applicationName: applicationName
+              properties: "{}"
+              secureProperties: "{}"
+            mule.agent.scheduling.service:
+              schedulers:
+              - expression: expression
+                name: name
+                startDelay: startDelay
+                timeZone: timeZone
+                type: type
+                flowName: flowName
+                enabled: true
+                timeUnit: NANOSECONDS
+                frequency: frequency
+              - expression: expression
+                name: name
+                startDelay: startDelay
+                timeZone: timeZone
+                type: type
+                flowName: flowName
+                enabled: true
+                timeUnit: NANOSECONDS
+                frequency: frequency
+              applicationName: applicationName
+          objectStoreV2Enabled: true
+          integrations:
+            services:
+              objectStoreV2:
+                enabled: true
+          vCores: 1.4658129805029452
+          status: RUNNING
+        name: name
+        desiredVersion: desiredVersion
+        target:
+          targetId: targetId
+          provider: provider
+          replicas: 2
+          deploymentSettings:
+            jvm:
+              args: args
+            sidecars:
+              anypoint-monitoring:
+                image: image
+                resources:
+                  memory:
+                    reserved: reserved
+                    limit: limit
+                  cpu:
+                    reserved: reserved
+                    limit: limit
+            disableAmLogForwarding: true
+            clustered: true
+            forwardSslSession: true
+            runtime:
+              releaseChannel: releaseChannel
+              java: java
+              version: 4.6.0:40-java17
+            resources:
+              memory:
+                reserved: reserved
+                limit: limit
+              cpu:
+                reserved: reserved
+                limit: limit
+              storage:
+                reserved: reserved
+                limit: limit
+            enforceDeployingReplicasAcrossNodes: true
+            generateDefaultPublicUrl: true
+            anypointMonitoringScope: anypointMonitoringScope
+            updateStrategy: updateStrategy
+            persistentObjectStore: true
+            http:
+              inbound:
+                forwardSslSession: true
+                publicUrl: publicUrl
+                lastMileSecurity: true
+                internalUrl: internalUrl
+                pathRewrite: pathRewrite
+                uniqueId: uniqueId
+            lastMileSecurity: true
+            disableExternalLogForwarding: true
+            autoscaling:
+              maxReplicas: 5
+              minReplicas: 5
+              enabled: true
+            tracingEnabled: true
+      properties:
+        name:
+          title: name
+          type: string
+        target:
+          $ref: '#/components/schemas/Target'
+        application:
+          $ref: '#/components/schemas/Application'
+        desiredVersion:
+          title: desiredVersion
+          type: string
+      title: DeploymentRequestBody
+      type: object
+    HttpInbound:
+      example:
+        forwardSslSession: true
+        publicUrl: publicUrl
+        lastMileSecurity: true
+        internalUrl: internalUrl
+        pathRewrite: pathRewrite
+        uniqueId: uniqueId
+      properties:
+        publicUrl:
+          title: HttpInboundPublicUrl
+          type: string
+        pathRewrite:
+          description: This field is not supported on deployments to Shared Spaces.
+            Requests containing values other than null will be rejected.
+          title: HttpInboundPathRewrite
+          type: string
+        lastMileSecurity:
+          title: HttpInboundLastMileSecurity
+          type: boolean
+        forwardSslSession:
+          title: HttpInboundForwardSslSession
+          type: boolean
+        internalUrl:
+          title: HttpInboundInternalUrl
+          type: string
+        uniqueId:
+          title: HttpInboundUniqueId
+          type: string
+      title: HttpInbound
+      type: object
+    Http:
+      example:
+        inbound:
+          forwardSslSession: true
+          publicUrl: publicUrl
+          lastMileSecurity: true
+          internalUrl: internalUrl
+          pathRewrite: pathRewrite
+          uniqueId: uniqueId
+      properties:
+        inbound:
+          $ref: '#/components/schemas/HttpInbound'
+      title: Http
+      type: object
+    Jvm:
+      example:
+        args: args
+      properties:
+        args:
+          type: string
+      title: Jvm
+      type: object
+    Runtime:
+      description: |
+        On deployment operations use this object to pick the runtime version. All fields are optional.
+
+          * On new deployment operations, if not provided, the default values will be used.
+          * On re-deployment operations, if not provided, the current version of the deployment will be used.
+      example:
+        releaseChannel: releaseChannel
+        java: java
+        version: 4.6.0:40-java17
+      properties:
+        version:
+          description: |
+            On deployment operations it can be set to:
+              * a full image version with tag (i.e "4.6.0:40e-java17"),
+              * a base version with a partial tag not indicating the java version (i.e. "4.6.0:40")
+              * or only a base version (i.e. "4.6.0").
+            Defaults to the latest image version. This field has precedence over the legacy 'target.deploymentSettings.runtimeVersion'
+          example: 4.6.0:40-java17
+          title: RuntimeVersion
+          type: string
+        releaseChannel:
+          description: |
+            On deployment operations it can be set to one of:
+              * "LTS"
+              * "EDGE"
+              * "LEGACY".
+            Defaults to "EDGE". This field has precedence over the legacy 'target.deploymentSettings.runtimeReleaseChannel'. Learn more on release channels at https://docs.mulesoft.com/release-notes/mule-runtime/lts-edge-release-cadence.
+          title: RuntimeReleaseChannel
+          type: string
+        java:
+          description: |
+            On deployment operations it can be set to one of:
+              * "8"
+              * "17"
+            Defaults to "8". Learn more about Java support at https://docs.mulesoft.com/general/java-support.
+          title: RuntimeJava
+          type: string
+      title: Runtime
+      type: object
+    Autoscaling:
+      description: |
+        Use this object to provide CPU Based Horizontal Autoscaling configuration on deployment and redeployment operations. This object is optional. If Autoscaling is disabled and the fields "minReplicas" and "maxReplicas" are provided, they must match the value of "target.replicas" field. Learn more about Autoscaling at https://docs.mulesoft.com/cloudhub-2/ch2-configure-horizontal-autoscaling.
+      example:
+        maxReplicas: 5
+        minReplicas: 5
+        enabled: true
+      properties:
+        enabled:
+          description: |
+            Enables or disables the Autoscaling feature. The possible values are: true or false.
+          title: AutoscalingEnabled
+          type: boolean
+        minReplicas:
+          description: |
+            Set the minimum amount of replicas for your deployment. The minimum accepted value is 1. The maximum is 3.
+          title: AutoscalingMinReplicas
+          type: integer
+        maxReplicas:
+          description: |
+            Set the maximum amount of replicas your application can scale to. The minimum accepted value is 2. The maximum is 32.
+          title: AutoscalingMaxReplicas
+          type: integer
+      title: Autoscaling
+      type: object
+    ResourcesCpu:
+      example:
+        reserved: reserved
+        limit: limit
+      properties:
+        limit:
+          title: ResourcesCpuLimit
+          type: string
+        reserved:
+          title: ResourcesCpuReserved
+          type: string
+      title: ResourcesCpu
+      type: object
+    ResourcesMemory:
+      example:
+        reserved: reserved
+        limit: limit
+      properties:
+        limit:
+          title: ResourcesMemoryLimit
+          type: string
+        reserved:
+          title: ResourcesMemoryReserved
+          type: string
+      title: ResourcesMemory
+      type: object
+    ResourcesStorage:
+      example:
+        reserved: reserved
+        limit: limit
+      properties:
+        limit:
+          title: ResourcesStorageLimit
+          type: string
+        reserved:
+          title: ResourcesStorageReserved
+          type: string
+      title: ResourcesStorage
+      type: object
+    Resources:
+      example:
+        memory:
+          reserved: reserved
+          limit: limit
+        cpu:
+          reserved: reserved
+          limit: limit
+        storage:
+          reserved: reserved
+          limit: limit
+      properties:
+        cpu:
+          $ref: '#/components/schemas/ResourcesCpu'
+        memory:
+          $ref: '#/components/schemas/ResourcesMemory'
+        storage:
+          $ref: '#/components/schemas/ResourcesStorage'
+      title: Resources
+      type: object
+    AnypointMonitoring_resources_cpu:
+      example:
+        reserved: reserved
+        limit: limit
+      properties:
+        limit:
+          type: string
+        reserved:
+          type: string
+      type: object
+    AnypointMonitoring_resources:
+      example:
+        memory:
+          reserved: reserved
+          limit: limit
+        cpu:
+          reserved: reserved
+          limit: limit
+      properties:
+        cpu:
+          $ref: '#/components/schemas/AnypointMonitoring_resources_cpu'
+        memory:
+          $ref: '#/components/schemas/AnypointMonitoring_resources_cpu'
+      type: object
+    AnypointMonitoring:
+      example:
+        image: image
+        resources:
+          memory:
+            reserved: reserved
+            limit: limit
+          cpu:
+            reserved: reserved
+            limit: limit
+      properties:
+        image:
+          type: string
+        resources:
+          $ref: '#/components/schemas/AnypointMonitoring_resources'
+      title: AnypointMonitoring
+      type: object
+    Sidecars:
+      example:
+        anypoint-monitoring:
+          image: image
+          resources:
+            memory:
+              reserved: reserved
+              limit: limit
+            cpu:
+              reserved: reserved
+              limit: limit
+      properties:
+        anypoint-monitoring:
+          $ref: '#/components/schemas/AnypointMonitoring'
+      title: Sidecars
+      type: object
+    Application_integrations:
+      example:
+        services:
+          objectStoreV2:
+            enabled: true
+      properties:
+        services:
+          $ref: '#/components/schemas/Services'
+      type: object
+    MuleAgentAppPropService:
+      example:
+        applicationName: applicationName
+        properties: "{}"
+        secureProperties: "{}"
+      properties:
+        applicationName:
+          type: string
+        properties:
+          type: object
+        secureProperties:
+          type: object
+      title: MuleAgentAppPropService
+      type: object
+    scopeLoggingConfiguration:
+      example:
+        logLevel: logLevel
+        scope: scope
+      properties:
+        scope:
+          type: string
+        logLevel:
+          type: string
+      title: scopeLoggingConfiguration
+      type: object
+    MuleAgentLoggingService:
+      example:
+        artifactName: artifactName
+        scopeLoggingConfigurations:
+        - logLevel: logLevel
+          scope: scope
+        - logLevel: logLevel
+          scope: scope
+      properties:
+        artifactName:
+          type: string
+        scopeLoggingConfigurations:
+          items:
+            $ref: '#/components/schemas/scopeLoggingConfiguration'
+          title: ScopeLoggingConfigurations
+          type: array
+      title: MuleAgentLoggingService
+      type: object
+    Scheduler:
+      example:
+        expression: expression
+        name: name
+        startDelay: startDelay
+        timeZone: timeZone
+        type: type
+        flowName: flowName
+        enabled: true
+        timeUnit: NANOSECONDS
+        frequency: frequency
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        flowName:
+          type: string
+        enabled:
+          type: boolean
+        timeUnit:
+          enum:
+          - NANOSECONDS
+          - MICROSECONDS
+          - MILLISECONDS
+          - SECONDS
+          - MINUTES
+          - HOURS
+          - DAYS
+          type: string
+        frequency:
+          type: string
+        startDelay:
+          type: string
+        expression:
+          type: string
+        timeZone:
+          type: string
+      title: Scheduler
+    MuleAgentSchedulingService:
+      example:
+        schedulers:
+        - expression: expression
+          name: name
+          startDelay: startDelay
+          timeZone: timeZone
+          type: type
+          flowName: flowName
+          enabled: true
+          timeUnit: NANOSECONDS
+          frequency: frequency
+        - expression: expression
+          name: name
+          startDelay: startDelay
+          timeZone: timeZone
+          type: type
+          flowName: flowName
+          enabled: true
+          timeUnit: NANOSECONDS
+          frequency: frequency
+        applicationName: applicationName
+      properties:
+        applicationName:
+          type: string
+        schedulers:
+          items:
+            $ref: '#/components/schemas/Scheduler'
+          title: Schedulers
+          type: array
+      title: MuleAgentSchedulingService
+      type: object
+    deploymentItem_target:
+      example:
+        targetId: targetId
+        provider: provider
+      properties:
+        provider:
+          type: string
+        targetId:
+          type: string
+      type: object
+    deploymentItem_application:
+      example:
+        status: status
+      properties:
+        status:
+          type: string
+      type: object
+    deploymentItem:
+      example:
+        currentRuntimeVersion: currentRuntimeVersion
+        lastSuccessfulRuntimeVersion: lastSuccessfulRuntimeVersion
+        application:
+          status: status
+        lastModifiedDate: 1
+        name: name
+        id: id
+        creationDate: 6
+        target:
+          targetId: targetId
+          provider: provider
+        status: status
+      properties:
+        id:
+          description: deployment id
+          type: string
+        name:
+          description: the name of deployment
+          type: string
+        creationDate:
+          format: int64
+          type: integer
+        lastModifiedDate:
+          format: int64
+          type: integer
+        target:
+          $ref: '#/components/schemas/deploymentItem_target'
+        status:
+          type: string
+        application:
+          $ref: '#/components/schemas/deploymentItem_application'
+        currentRuntimeVersion:
+          type: string
+        lastSuccessfulRuntimeVersion:
+          type: string
+      title: deploymentItem
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

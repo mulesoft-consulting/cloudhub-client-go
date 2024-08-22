@@ -1,0 +1,984 @@
+openapi: 3.0.0
+info:
+  description: Runtime Fabrics API
+  title: Runtime Fabrics API
+  version: 1.0.0
+servers:
+- description: Anypoint Cloudhub
+  url: https://anypoint.mulesoft.com/runtimefabric/api
+- description: Anypoint Cloudhub EU
+  url: https://eu1.anypoint.mulesoft.com/runtimefabric/api
+- description: Anypoint Cloudhub GOV
+  url: https://gov.anypoint.mulesoft.com/runtimefabric/api
+security:
+- bearerAuth: []
+paths:
+  /organizations/{orgId}/helmrepoproperties:
+    get:
+      description: Retrieves Helm repo properties for a specific Runtime Fabrics Instance
+        by id.
+      operationId: GetFabricsHelmRepoProps
+      parameters:
+      - description: The organization Id
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorsResponse'
+          description: Bad request response
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FabricsHelmRepoProps'
+          description: get Fabrics Helm Repo Props
+      summary: Retrieves Helm repo properties for a Runtime Fabrics Instance by id.
+  /organizations/{orgId}/fabrics:
+    get:
+      description: Retrieves a list of all available Runtime Fabrics in the given
+        organization.
+      operationId: GetAllFabrics
+      parameters:
+      - description: The organization Id
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorsResponse'
+          description: Bad request response
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FabricsCollection'
+          description: get list secret groups
+      summary: Retrieves all available Runtime Fabrics.
+    post:
+      description: Creates a Runtime Fabrics instance.
+      operationId: PostFabrics
+      parameters:
+      - description: The organization Id
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FabricsPostBody'
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostFabrics_404_response'
+          description: resource not found
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorsResponse'
+          description: Bad request response
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fabrics'
+          description: post an instance of Fabrics
+      summary: Creates a Runtime Fabrics
+  /organizations/{orgId}/fabrics/{fabricsId}:
+    delete:
+      description: Delete a specific Runtime Fabrics Instance by id.
+      operationId: DeleteFabrics
+      parameters:
+      - description: The organization Id
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The Runtime Fabrics Instance id
+        explode: false
+        in: path
+        name: fabricsId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorsResponse'
+          description: Bad request response
+        "204":
+          description: delete and instance of Fabrics
+      summary: Delete a specific Runtime Fabrics Instance by id.
+    get:
+      description: Retrieves a specific Runtime Fabrics Instance by id.
+      operationId: GetFabrics
+      parameters:
+      - description: The organization Id
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The Runtime Fabrics Instance id
+        explode: false
+        in: path
+        name: fabricsId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorsResponse'
+          description: Bad request response
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fabrics'
+          description: get an instance of Fabrics
+      summary: Retrieves a specific Runtime Fabrics Instance by id.
+  /organizations/{orgId}/fabrics/{fabricsId}/associations:
+    get:
+      description: Get Runtime Fabrics instance Environment Associations.
+      operationId: GetFabricsAssociations
+      parameters:
+      - description: The organization Id
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The Runtime Fabrics Instance id
+        explode: false
+        in: path
+        name: fabricsId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostFabrics_404_response'
+          description: resource not found
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorsResponse'
+          description: Bad request response
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FabricsAssociations'
+          description: get Fabrics associations
+      summary: Get Runtime Fabrics instance Environment Associations.
+    post:
+      description: Creates Runtime Fabrics instance Environment Associations.
+      operationId: PostFabricsAssociations
+      parameters:
+      - description: The organization Id
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The Runtime Fabrics Instance id
+        explode: false
+        in: path
+        name: fabricsId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FabricsAssociationsPostBody'
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostFabrics_404_response'
+          description: resource not found
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorsResponse'
+          description: Bad request response
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FabricsAssociations'
+          description: post Fabrics associations
+      summary: Creates Runtime Fabrics instance Environment Associations.
+  /organizations/{orgId}/fabrics/{fabricsId}/health:
+    get:
+      description: Retrieves health for a specific Runtime Fabrics Instance by id.
+      operationId: GetFabricsHealth
+      parameters:
+      - description: The organization Id
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The Runtime Fabrics Instance id
+        explode: false
+        in: path
+        name: fabricsId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorsResponse'
+          description: Bad request response
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FabricsHealth'
+          description: get Fabrics Health
+      summary: Retrieves health for a Runtime Fabrics Instance by id.
+components:
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+    BadRequestError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorsResponse'
+      description: Bad request response
+    NotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PostFabrics_404_response'
+      description: resource not found
+    SuccessGetAllFabrics:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FabricsCollection'
+      description: get list secret groups
+    SuccessPostFabrics:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Fabrics'
+      description: post an instance of Fabrics
+    SuccessGetFabrics:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Fabrics'
+      description: get an instance of Fabrics
+    SuccessDeleteFabrics:
+      description: delete and instance of Fabrics
+    SuccessGetFabricsAssociations:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FabricsAssociations'
+      description: get Fabrics associations
+    SuccessPostFabricsAssociations:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FabricsAssociations'
+      description: post Fabrics associations
+    SuccessGetFabricsHelmRepoProps:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FabricsHelmRepoProps'
+      description: get Fabrics Helm Repo Props
+    SuccessGetFabricsHealth:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FabricsHealth'
+      description: get Fabrics Health
+  schemas:
+    errorsResponse:
+      properties:
+        errors:
+          items:
+            $ref: '#/components/schemas/errorsResponse_errors_inner'
+          type: array
+      title: errorsResponse
+      type: object
+    FabricsCollection:
+      items:
+        $ref: '#/components/schemas/Fabrics'
+      type: array
+    Fabrics:
+      example:
+        isHelmManaged: true
+        appScopedLogForwarding: true
+        upgrade:
+          status: status
+        vendorMetadata: "{}"
+        version: version
+        availableUpgradeVersion: availableUpgradeVersion
+        secondsSinceHeartbeat: 1
+        isManaged: true
+        organizationId: organizationId
+        createdAt: 0
+        features:
+          persistentStore: true
+          enhancedSecurity: true
+        ingress:
+          domains:
+          - domains
+          - domains
+        licenseExpiryDate: 1
+        nodes:
+        - uid: uid
+          role: role
+          dockerVersion: dockerVersion
+          name: name
+          kubeletVersion: kubeletVersion
+          allocatedRequestCapacity:
+            memory: memory
+            cpu: 2
+            memoryMi: 9
+            pods: 3
+            cpuMillis: 7
+          status:
+            isReady: true
+            isHealthy: true
+            isSchedulable: true
+          capacity:
+            memory: memory
+            cpu: 6
+            memoryMi: 5
+            pods: 5
+            cpuMillis: 1
+          allocatedLimitCapacity:
+            memory: memory
+            cpu: 2
+            memoryMi: 7
+            pods: 1
+            cpuMillis: 4
+        - uid: uid
+          role: role
+          dockerVersion: dockerVersion
+          name: name
+          kubeletVersion: kubeletVersion
+          allocatedRequestCapacity:
+            memory: memory
+            cpu: 2
+            memoryMi: 9
+            pods: 3
+            cpuMillis: 7
+          status:
+            isReady: true
+            isHealthy: true
+            isSchedulable: true
+          capacity:
+            memory: memory
+            cpu: 6
+            memoryMi: 5
+            pods: 5
+            cpuMillis: 1
+          allocatedLimitCapacity:
+            memory: memory
+            cpu: 2
+            memoryMi: 7
+            pods: 1
+            cpuMillis: 4
+        clusterConfigurationLevel: clusterConfigurationLevel
+        vendor: vendor
+        name: name
+        desiredVersion: desiredVersion
+        activationData: activationData
+        namespace: namespace
+        id: id
+        region: region
+        status: status
+        kubernetesVersion: kubernetesVersion
+      properties:
+        id:
+          title: Cluster ID
+          type: string
+        name:
+          title: Cluster Name
+          type: string
+        region:
+          title: Region
+          type: string
+        vendor:
+          title: Vendor
+          type: string
+        vendorMetadata:
+          title: Vendor Metadata
+          type: object
+        organizationId:
+          title: Organization ID
+          type: string
+        version:
+          title: Version
+          type: string
+        status:
+          title: Status
+          type: string
+        desiredVersion:
+          title: Desired Version
+          type: string
+        availableUpgradeVersion:
+          title: Available Upgrade Version
+          type: string
+        createdAt:
+          format: int64
+          title: CreatedAt
+          type: integer
+        upgrade:
+          $ref: '#/components/schemas/Fabrics_upgrade'
+        nodes:
+          items:
+            $ref: '#/components/schemas/FabricsNode'
+          title: Nodes
+          type: array
+        activationData:
+          type: string
+        secondsSinceHeartbeat:
+          title: Seconds Since Heartbeat
+          type: integer
+        kubernetesVersion:
+          title: Kubernetes Version
+          type: string
+        namespace:
+          title: Namespace
+          type: string
+        licenseExpiryDate:
+          format: int64
+          title: License Expiry Date
+          type: integer
+        isManaged:
+          title: Is Managed
+          type: boolean
+        isHelmManaged:
+          title: Is Helm Managed
+          type: boolean
+        appScopedLogForwarding:
+          title: App Scoped Log Forwarding
+          type: boolean
+        clusterConfigurationLevel:
+          title: Cluster Configuration Level
+          type: string
+        features:
+          $ref: '#/components/schemas/Features'
+        ingress:
+          $ref: '#/components/schemas/Ingress'
+      type: object
+    FabricsNode:
+      example:
+        uid: uid
+        role: role
+        dockerVersion: dockerVersion
+        name: name
+        kubeletVersion: kubeletVersion
+        allocatedRequestCapacity:
+          memory: memory
+          cpu: 2
+          memoryMi: 9
+          pods: 3
+          cpuMillis: 7
+        status:
+          isReady: true
+          isHealthy: true
+          isSchedulable: true
+        capacity:
+          memory: memory
+          cpu: 6
+          memoryMi: 5
+          pods: 5
+          cpuMillis: 1
+        allocatedLimitCapacity:
+          memory: memory
+          cpu: 2
+          memoryMi: 7
+          pods: 1
+          cpuMillis: 4
+      properties:
+        uid:
+          title: Node UID
+          type: string
+        name:
+          title: Node Name
+          type: string
+        kubeletVersion:
+          title: Kubelet Version
+          type: string
+        dockerVersion:
+          title: Docker Version
+          type: string
+        role:
+          title: Role
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+        capacity:
+          $ref: '#/components/schemas/Capacity'
+        allocatedRequestCapacity:
+          $ref: '#/components/schemas/Allocated_Request_Capacity'
+        allocatedLimitCapacity:
+          $ref: '#/components/schemas/Allocated_Limit_Capacity'
+      title: Node
+      type: object
+    FabricsPostBody:
+      example:
+        vendor: vendor
+        name: name
+        region: region
+      properties:
+        name:
+          type: string
+        vendor:
+          type: string
+        region:
+          type: string
+      type: object
+    FabricsAssociationsPostBody:
+      example:
+        associations:
+        - organizationId: organizationId
+          environment: environment
+        - organizationId: organizationId
+          environment: environment
+      properties:
+        associations:
+          items:
+            $ref: '#/components/schemas/FabricsAssociationsPostBody_associations_inner'
+          type: array
+      type: object
+    FabricsAssociations:
+      items:
+        $ref: '#/components/schemas/FabricsAssociations_inner'
+      type: array
+    FabricsHelmRepoProps:
+      example:
+        RTF_IMAGE_REGISTRY_ENDPOINT: RTF_IMAGE_REGISTRY_ENDPOINT
+        RTF_IMAGE_REGISTRY_PASSWORD: RTF_IMAGE_REGISTRY_PASSWORD
+        RTF_IMAGE_REGISTRY_USER: RTF_IMAGE_REGISTRY_USER
+      properties:
+        RTF_IMAGE_REGISTRY_ENDPOINT:
+          description: the fabrics image registry endpoint
+          type: string
+        RTF_IMAGE_REGISTRY_USER:
+          description: the username to access the fabrics registry
+          type: string
+        RTF_IMAGE_REGISTRY_PASSWORD:
+          description: the password to access the fabrics registry
+          type: string
+      type: object
+    FabricsHealth:
+      example:
+        persistentGateway:
+          failedProbes:
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          healthy: true
+          probes: probes
+          updatedAt: 0
+        externalLogForwarding:
+          failedProbes:
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          healthy: true
+          probes: probes
+          updatedAt: 0
+        appliance:
+          failedProbes:
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          healthy: true
+          probes: probes
+          updatedAt: 0
+        clusterMonitoring:
+          failedProbes:
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          healthy: true
+          probes: probes
+          updatedAt: 0
+        manageDeployments:
+          failedProbes:
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          healthy: true
+          probes: probes
+          updatedAt: 0
+        anypointMonitoring:
+          failedProbes:
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          healthy: true
+          probes: probes
+          updatedAt: 0
+        infrastructure:
+          failedProbes:
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          healthy: true
+          probes: probes
+          updatedAt: 0
+        loadBalancing:
+          failedProbes:
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          - lastTransitionAt: 6
+            reason: reason
+            name: name
+          healthy: true
+          probes: probes
+          updatedAt: 0
+      properties:
+        clusterMonitoring:
+          $ref: '#/components/schemas/FabricsHealthStatus'
+        manageDeployments:
+          $ref: '#/components/schemas/FabricsHealthStatus'
+        loadBalancing:
+          $ref: '#/components/schemas/FabricsHealthStatus'
+        anypointMonitoring:
+          $ref: '#/components/schemas/FabricsHealthStatus'
+        externalLogForwarding:
+          $ref: '#/components/schemas/FabricsHealthStatus'
+        appliance:
+          $ref: '#/components/schemas/FabricsHealthStatus'
+        infrastructure:
+          $ref: '#/components/schemas/FabricsHealthStatus'
+        persistentGateway:
+          $ref: '#/components/schemas/FabricsHealthStatus'
+      type: object
+    FabricsHealthStatus:
+      example:
+        failedProbes:
+        - lastTransitionAt: 6
+          reason: reason
+          name: name
+        - lastTransitionAt: 6
+          reason: reason
+          name: name
+        healthy: true
+        probes: probes
+        updatedAt: 0
+      properties:
+        healthy:
+          description: True is the component is healthy.
+          type: boolean
+        updatedAt:
+          format: int64
+          type: integer
+        probes:
+          description: Probes collected for this health check. Only applicable for
+            Appliance probes.
+          type: string
+        failedProbes:
+          description: Probe failures attributing to the result of this health check.
+          items:
+            $ref: '#/components/schemas/FabricsHealthStatus_failedProbes_inner'
+          type: array
+      type: object
+    PostFabrics_404_response:
+      properties:
+        name:
+          type: string
+        message:
+          type: string
+      type: object
+    errorsResponse_errors_inner:
+      properties:
+        type:
+          title: type
+          type: string
+        dataPath:
+          title: dataPath
+          type: string
+        keyword:
+          title: keyword
+          type: string
+        schema:
+          title: schema
+          type: string
+        data:
+          title: data
+          type: string
+        message:
+          title: message
+          type: string
+      type: object
+    Fabrics_upgrade:
+      example:
+        status: status
+      properties:
+        status:
+          type: string
+      type: object
+    Features:
+      example:
+        persistentStore: true
+        enhancedSecurity: true
+      properties:
+        enhancedSecurity:
+          title: Enhanced Security
+          type: boolean
+        persistentStore:
+          title: Persistent Store
+          type: boolean
+      title: Features
+      type: object
+    Ingress:
+      example:
+        domains:
+        - domains
+        - domains
+      properties:
+        domains:
+          items:
+            type: string
+          title: Domains
+          type: array
+      title: Ingress
+      type: object
+    Status:
+      example:
+        isReady: true
+        isHealthy: true
+        isSchedulable: true
+      properties:
+        isHealthy:
+          title: Is Healthy
+          type: boolean
+        isReady:
+          title: Is Ready
+          type: boolean
+        isSchedulable:
+          title: Is Schedulable
+          type: boolean
+      title: Status
+      type: object
+    Capacity:
+      example:
+        memory: memory
+        cpu: 6
+        memoryMi: 5
+        pods: 5
+        cpuMillis: 1
+      properties:
+        cpu:
+          title: CPU
+          type: integer
+        cpuMillis:
+          title: CPU Millis
+          type: integer
+        memory:
+          title: Memory
+          type: string
+        memoryMi:
+          title: Memory Mi
+          type: integer
+        pods:
+          title: Pods
+          type: integer
+      title: Capacity
+      type: object
+    Allocated_Request_Capacity:
+      example:
+        memory: memory
+        cpu: 2
+        memoryMi: 9
+        pods: 3
+        cpuMillis: 7
+      properties:
+        cpu:
+          title: CPU
+          type: integer
+        cpuMillis:
+          title: CPU Millis
+          type: integer
+        memory:
+          title: Memory
+          type: string
+        memoryMi:
+          title: Memory Mi
+          type: integer
+        pods:
+          title: Pods
+          type: integer
+      title: Allocated Request Capacity
+      type: object
+    Allocated_Limit_Capacity:
+      example:
+        memory: memory
+        cpu: 2
+        memoryMi: 7
+        pods: 1
+        cpuMillis: 4
+      properties:
+        cpu:
+          title: CPU
+          type: integer
+        cpuMillis:
+          title: CPU Millis
+          type: integer
+        memory:
+          title: Memory
+          type: string
+        memoryMi:
+          title: Memory Mi
+          type: integer
+        pods:
+          title: Pods
+          type: integer
+      title: Allocated Limit Capacity
+      type: object
+    FabricsAssociationsPostBody_associations_inner:
+      example:
+        organizationId: organizationId
+        environment: environment
+      properties:
+        organizationId:
+          type: string
+        environment:
+          type: string
+      type: object
+    FabricsAssociations_inner:
+      example:
+        organizationId: organizationId
+        deploymentStatus: deploymentStatus
+        environmentId: environmentId
+        name: name
+        errorMessage: errorMessage
+        id: id
+      properties:
+        id:
+          type: string
+        organizationId:
+          type: string
+        environmentId:
+          type: string
+        name:
+          type: string
+        deploymentStatus:
+          type: string
+        errorMessage:
+          type: string
+      type: object
+    FabricsHealthStatus_failedProbes_inner:
+      example:
+        lastTransitionAt: 6
+        reason: reason
+        name: name
+      properties:
+        name:
+          type: string
+        reason:
+          type: string
+        lastTransitionAt:
+          type: integer
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
