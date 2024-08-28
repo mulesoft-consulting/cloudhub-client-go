@@ -387,11 +387,11 @@ type DefaultApiAssetsPostRequest struct {
 	version *string
 	name *string
 	classifier *string
-	apiVersion *string
-	main *string
 	groupId *string
 	asset *os.File
 	xAllowedApiSpecFormats *string
+	apiVersion *string
+	main *string
 	dependencies *string
 	originalFormatVersion *string
 	metadata *string
@@ -435,18 +435,6 @@ func (r DefaultApiAssetsPostRequest) Classifier(classifier string) DefaultApiAss
 	return r
 }
 
-// The product version of API assets. Required for \\\&quot;raml\\\&quot;, \\\&quot;oas\\\&quot;, \\\&quot;wsdl\\\&quot; and \\\&quot;http\\\&quot; assets
-func (r DefaultApiAssetsPostRequest) ApiVersion(apiVersion string) DefaultApiAssetsPostRequest {
-	r.apiVersion = &apiVersion
-	return r
-}
-
-// The main file of the asset. Required for \\\&quot;raml\\\&quot;, \\\&quot;raml-fragment\\\&quot;, \\\&quot;oas\\\&quot; and \\\&quot;wsdl\\\&quot;.
-func (r DefaultApiAssetsPostRequest) Main(main string) DefaultApiAssetsPostRequest {
-	r.main = &main
-	return r
-}
-
 // The id of the business group the asset will belong to
 func (r DefaultApiAssetsPostRequest) GroupId(groupId string) DefaultApiAssetsPostRequest {
 	r.groupId = &groupId
@@ -462,6 +450,18 @@ func (r DefaultApiAssetsPostRequest) Asset(asset *os.File) DefaultApiAssetsPostR
 // Specify API Spec formats that assets are allowed to use
 func (r DefaultApiAssetsPostRequest) XAllowedApiSpecFormats(xAllowedApiSpecFormats string) DefaultApiAssetsPostRequest {
 	r.xAllowedApiSpecFormats = &xAllowedApiSpecFormats
+	return r
+}
+
+// The product version of API assets. Required for \\\&quot;raml\\\&quot;, \\\&quot;oas\\\&quot;, \\\&quot;wsdl\\\&quot; and \\\&quot;http\\\&quot; assets
+func (r DefaultApiAssetsPostRequest) ApiVersion(apiVersion string) DefaultApiAssetsPostRequest {
+	r.apiVersion = &apiVersion
+	return r
+}
+
+// The main file of the asset. Required for \\\&quot;raml\\\&quot;, \\\&quot;raml-fragment\\\&quot;, \\\&quot;oas\\\&quot; and \\\&quot;wsdl\\\&quot;.
+func (r DefaultApiAssetsPostRequest) Main(main string) DefaultApiAssetsPostRequest {
+	r.main = &main
 	return r
 }
 
@@ -552,12 +552,6 @@ func (a *DefaultApiService) AssetsPostExecute(r DefaultApiAssetsPostRequest) (*P
 	if r.classifier == nil {
 		return localVarReturnValue, nil, reportError("classifier is required and must be specified")
 	}
-	if r.apiVersion == nil {
-		return localVarReturnValue, nil, reportError("apiVersion is required and must be specified")
-	}
-	if r.main == nil {
-		return localVarReturnValue, nil, reportError("main is required and must be specified")
-	}
 	if r.groupId == nil {
 		return localVarReturnValue, nil, reportError("groupId is required and must be specified")
 	}
@@ -591,8 +585,12 @@ func (a *DefaultApiService) AssetsPostExecute(r DefaultApiAssetsPostRequest) (*P
 	parameterAddToHeaderOrQuery(localVarFormParams, "version", r.version, "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "classifier", r.classifier, "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "apiVersion", r.apiVersion, "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "main", r.main, "")
+	if r.apiVersion != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "apiVersion", r.apiVersion, "")
+	}
+	if r.main != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "main", r.main, "")
+	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "groupId", r.groupId, "")
 	var assetLocalVarFormFileName string
 	var assetLocalVarFileName     string

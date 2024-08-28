@@ -236,7 +236,7 @@ Name | Type | Description  | Notes
 
 ## AssetsPost
 
-> PostAssetResponse AssetsPost(ctx).XStrictPackage(xStrictPackage).OrganizationId(organizationId).AssetId(assetId).Version(version).Name(name).Classifier(classifier).ApiVersion(apiVersion).Main(main).GroupId(groupId).Asset(asset).XAllowedApiSpecFormats(xAllowedApiSpecFormats).Dependencies(dependencies).OriginalFormatVersion(originalFormatVersion).Metadata(metadata).Tags(tags).AssetLink(assetLink).Execute()
+> PostAssetResponse AssetsPost(ctx).XStrictPackage(xStrictPackage).OrganizationId(organizationId).AssetId(assetId).Version(version).Name(name).Classifier(classifier).GroupId(groupId).Asset(asset).XAllowedApiSpecFormats(xAllowedApiSpecFormats).ApiVersion(apiVersion).Main(main).Dependencies(dependencies).OriginalFormatVersion(originalFormatVersion).Metadata(metadata).Tags(tags).AssetLink(assetLink).Execute()
 
 Create a new asset
 
@@ -261,11 +261,11 @@ func main() {
     version := "version_example" // string | The version of the asset being created (must follow Semver syntax)
     name := "name_example" // string | The visible name of the asset
     classifier := "classifier_example" // string | The type of the asset to be created
-    apiVersion := "apiVersion_example" // string | The product version of API assets. Required for \\\"raml\\\", \\\"oas\\\", \\\"wsdl\\\" and \\\"http\\\" assets
-    main := "main_example" // string | The main file of the asset. Required for \\\"raml\\\", \\\"raml-fragment\\\", \\\"oas\\\" and \\\"wsdl\\\".
     groupId := "groupId_example" // string | The id of the business group the asset will belong to
     asset := os.NewFile(1234, "some_file") // *os.File | The asset file. Required for \\\"raml\\\", \\\"raml-fragment\\\", \\\"oas\\\" and \\\"wsdl\\\". Maximum size of 5 MB. This field must be the last field of the multipart.
     xAllowedApiSpecFormats := "xAllowedApiSpecFormats_example" // string | Specify API Spec formats that assets are allowed to use (optional)
+    apiVersion := "apiVersion_example" // string | The product version of API assets. Required for \\\"raml\\\", \\\"oas\\\", \\\"wsdl\\\" and \\\"http\\\" assets (optional)
+    main := "main_example" // string | The main file of the asset. Required for \\\"raml\\\", \\\"raml-fragment\\\", \\\"oas\\\" and \\\"wsdl\\\". (optional)
     dependencies := "dependencies_example" // string | Required for \\\"api-group\\\" classifier only, They are APIs included in it, as a JSON array of objects. Because the field must be of String type, the stringified value of the JSON array must be passed as parameter. (optional)
     originalFormatVersion := "originalFormatVersion_example" // string | The version of the format of the api specification. ie ‘2.0’ for OAS 2.0 (optional)
     metadata := "metadata_example" // string | A design center object describing asset projectId, branchId and commitId. Because the field must be of String type, the stringified value of the JSON object must be passed as parameter. (optional)
@@ -274,7 +274,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.DefaultApi.AssetsPost(context.Background()).XStrictPackage(xStrictPackage).OrganizationId(organizationId).AssetId(assetId).Version(version).Name(name).Classifier(classifier).ApiVersion(apiVersion).Main(main).GroupId(groupId).Asset(asset).XAllowedApiSpecFormats(xAllowedApiSpecFormats).Dependencies(dependencies).OriginalFormatVersion(originalFormatVersion).Metadata(metadata).Tags(tags).AssetLink(assetLink).Execute()
+    resp, r, err := apiClient.DefaultApi.AssetsPost(context.Background()).XStrictPackage(xStrictPackage).OrganizationId(organizationId).AssetId(assetId).Version(version).Name(name).Classifier(classifier).GroupId(groupId).Asset(asset).XAllowedApiSpecFormats(xAllowedApiSpecFormats).ApiVersion(apiVersion).Main(main).Dependencies(dependencies).OriginalFormatVersion(originalFormatVersion).Metadata(metadata).Tags(tags).AssetLink(assetLink).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AssetsPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -301,11 +301,11 @@ Name | Type | Description  | Notes
  **version** | **string** | The version of the asset being created (must follow Semver syntax) | 
  **name** | **string** | The visible name of the asset | 
  **classifier** | **string** | The type of the asset to be created | 
- **apiVersion** | **string** | The product version of API assets. Required for \\\&quot;raml\\\&quot;, \\\&quot;oas\\\&quot;, \\\&quot;wsdl\\\&quot; and \\\&quot;http\\\&quot; assets | 
- **main** | **string** | The main file of the asset. Required for \\\&quot;raml\\\&quot;, \\\&quot;raml-fragment\\\&quot;, \\\&quot;oas\\\&quot; and \\\&quot;wsdl\\\&quot;. | 
  **groupId** | **string** | The id of the business group the asset will belong to | 
  **asset** | ***os.File** | The asset file. Required for \\\&quot;raml\\\&quot;, \\\&quot;raml-fragment\\\&quot;, \\\&quot;oas\\\&quot; and \\\&quot;wsdl\\\&quot;. Maximum size of 5 MB. This field must be the last field of the multipart. | 
  **xAllowedApiSpecFormats** | **string** | Specify API Spec formats that assets are allowed to use | 
+ **apiVersion** | **string** | The product version of API assets. Required for \\\&quot;raml\\\&quot;, \\\&quot;oas\\\&quot;, \\\&quot;wsdl\\\&quot; and \\\&quot;http\\\&quot; assets | 
+ **main** | **string** | The main file of the asset. Required for \\\&quot;raml\\\&quot;, \\\&quot;raml-fragment\\\&quot;, \\\&quot;oas\\\&quot; and \\\&quot;wsdl\\\&quot;. | 
  **dependencies** | **string** | Required for \\\&quot;api-group\\\&quot; classifier only, They are APIs included in it, as a JSON array of objects. Because the field must be of String type, the stringified value of the JSON array must be passed as parameter. | 
  **originalFormatVersion** | **string** | The version of the format of the api specification. ie ‘2.0’ for OAS 2.0 | 
  **metadata** | **string** | A design center object describing asset projectId, branchId and commitId. Because the field must be of String type, the stringified value of the JSON object must be passed as parameter. | 

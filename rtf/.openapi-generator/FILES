@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -51,5 +50,4 @@ model_ingress.go
 model_post_fabrics_404_response.go
 model_status.go
 response.go
-test/api_default_test.go
 utils.go

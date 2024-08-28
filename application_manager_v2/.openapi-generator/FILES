@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -79,5 +78,4 @@ model_sidecars.go
 model_state.go
 model_target.go
 response.go
-test/api_default_test.go
 utils.go

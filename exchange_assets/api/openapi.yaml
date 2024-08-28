@@ -751,6 +751,7 @@ components:
         classifier:
           description: The type of the asset to be created
           enum:
+          - mule-application
           - raml-fragment
           - raml
           - oas
@@ -809,12 +810,10 @@ components:
           title: assetLink
           type: string
       required:
-      - apiVersion
       - asset
       - assetId
       - classifier
       - groupId
-      - main
       - name
       - organizationId
       - version
