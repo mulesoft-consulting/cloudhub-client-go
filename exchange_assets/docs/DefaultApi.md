@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**AssetsOrgIdAssetIdAssetGet**](DefaultApi.md#AssetsOrgIdAssetIdAssetGet) | **Get** /assets/{orgId}/{assetId}/asset | Get one specific Asset
 [**AssetsOrgIdAssetIdPatch**](DefaultApi.md#AssetsOrgIdAssetIdPatch) | **Patch** /assets/{orgId}/{assetId} | update Asset name and description
+[**AssetsOrgIdAssetIdVersionAssetGet**](DefaultApi.md#AssetsOrgIdAssetIdVersionAssetGet) | **Get** /assets/{orgId}/{assetId}/{version}/asset | Get Asset by Version
 [**AssetsOrgIdAssetIdVersionDelete**](DefaultApi.md#AssetsOrgIdAssetIdVersionDelete) | **Delete** /assets/{orgId}/{assetId}/{version} | Delete an asset
 [**AssetsPost**](DefaultApi.md#AssetsPost) | **Post** /assets | Create a new asset
 [**AssetsSearchGet**](DefaultApi.md#AssetsSearchGet) | **Get** /assets/search | Search for assets
@@ -152,6 +153,82 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: application/json
 - **Accept**: application/json, text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AssetsOrgIdAssetIdVersionAssetGet
+
+> Asset AssetsOrgIdAssetIdVersionAssetGet(ctx, orgId, assetId, version).Execute()
+
+Get Asset by Version
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/mulesoft-anypoint/anypoint-client-go/exchange_assets"
+)
+
+func main() {
+    orgId := "orgId_example" // string | The ID of the organization in GUID format
+    assetId := "assetId_example" // string | The ID of the asset
+    version := "version_example" // string | The version of the asset
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.DefaultApi.AssetsOrgIdAssetIdVersionAssetGet(context.Background(), orgId, assetId, version).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AssetsOrgIdAssetIdVersionAssetGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `AssetsOrgIdAssetIdVersionAssetGet`: Asset
+    fmt.Fprintf(os.Stdout, "Response from `DefaultApi.AssetsOrgIdAssetIdVersionAssetGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**orgId** | **string** | The ID of the organization in GUID format | 
+**assetId** | **string** | The ID of the asset | 
+**version** | **string** | The version of the asset | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAssetsOrgIdAssetIdVersionAssetGetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+
+### Return type
+
+[**Asset**](Asset.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

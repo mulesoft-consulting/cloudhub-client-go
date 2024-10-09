@@ -201,6 +201,50 @@ paths:
                 $ref: '#/components/schemas/asset'
           description: Success response
       summary: Get one specific Asset
+  /assets/{orgId}/{assetId}/{version}/asset:
+    get:
+      description: Get one specific Asset by version
+      parameters:
+      - description: The ID of the organization in GUID format
+        explode: false
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The ID of the asset
+        explode: false
+        in: path
+        name: assetId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: The version of the asset
+        explode: false
+        in: path
+        name: version
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_assets_post_400_response'
+          description: Bad request response
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/asset'
+          description: Success response
+      summary: Get Asset by Version
   /assets/{orgId}/{assetId}:
     patch:
       description: Modify an asset

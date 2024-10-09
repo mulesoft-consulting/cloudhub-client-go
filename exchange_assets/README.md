@@ -79,6 +79,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DefaultApi* | [**AssetsOrgIdAssetIdAssetGet**](docs/DefaultApi.md#assetsorgidassetidassetget) | **Get** /assets/{orgId}/{assetId}/asset | Get one specific Asset
 *DefaultApi* | [**AssetsOrgIdAssetIdPatch**](docs/DefaultApi.md#assetsorgidassetidpatch) | **Patch** /assets/{orgId}/{assetId} | update Asset name and description
+*DefaultApi* | [**AssetsOrgIdAssetIdVersionAssetGet**](docs/DefaultApi.md#assetsorgidassetidversionassetget) | **Get** /assets/{orgId}/{assetId}/{version}/asset | Get Asset by Version
 *DefaultApi* | [**AssetsOrgIdAssetIdVersionDelete**](docs/DefaultApi.md#assetsorgidassetidversiondelete) | **Delete** /assets/{orgId}/{assetId}/{version} | Delete an asset
 *DefaultApi* | [**AssetsPost**](docs/DefaultApi.md#assetspost) | **Post** /assets | Create a new asset
 *DefaultApi* | [**AssetsSearchGet**](docs/DefaultApi.md#assetssearchget) | **Get** /assets/search | Search for assets
