@@ -101,6 +101,7 @@ Class | Method | HTTP request | Description
  - [Organization](docs/Organization.md)
  - [PatchAssetNameAndDescr](docs/PatchAssetNameAndDescr.md)
  - [PostAssetResponse](docs/PostAssetResponse.md)
+ - [TagsInner](docs/TagsInner.md)
 
 
 ## Documentation For Authorization

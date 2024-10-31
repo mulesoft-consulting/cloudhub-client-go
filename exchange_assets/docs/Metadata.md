@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Classifier** | Pointer to **string** |  | [optional] 
-**Tags** | Pointer to **[]string** |  | [optional] 
+**Tags** | Pointer to [**[]TagsInner**](TagsInner.md) |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
 
@@ -55,20 +55,20 @@ HasClassifier returns a boolean if a field has been set.
 
 ### GetTags
 
-`func (o *Metadata) GetTags() []string`
+`func (o *Metadata) GetTags() []TagsInner`
 
 GetTags returns the Tags field if non-nil, zero value otherwise.
 
 ### GetTagsOk
 
-`func (o *Metadata) GetTagsOk() (*[]string, bool)`
+`func (o *Metadata) GetTagsOk() (*[]TagsInner, bool)`
 
 GetTagsOk returns a tuple with the Tags field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTags
 
-`func (o *Metadata) SetTags(v []string)`
+`func (o *Metadata) SetTags(v []TagsInner)`
 
 SetTags sets Tags field to given value.
 

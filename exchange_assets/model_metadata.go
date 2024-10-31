@@ -20,7 +20,7 @@ var _ MappedNullable = &Metadata{}
 // Metadata struct for Metadata
 type Metadata struct {
 	Classifier *string `json:"classifier,omitempty"`
-	Tags []string `json:"tags,omitempty"`
+	Tags []TagsInner `json:"tags,omitempty"`
 	Name *string `json:"name,omitempty"`
 	Type *string `json:"type,omitempty"`
 }
@@ -75,9 +75,9 @@ func (o *Metadata) SetClassifier(v string) {
 }
 
 // GetTags returns the Tags field value if set, zero value otherwise.
-func (o *Metadata) GetTags() []string {
+func (o *Metadata) GetTags() []TagsInner {
 	if o == nil || IsNil(o.Tags) {
-		var ret []string
+		var ret []TagsInner
 		return ret
 	}
 	return o.Tags
@@ -85,7 +85,7 @@ func (o *Metadata) GetTags() []string {
 
 // GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Metadata) GetTagsOk() ([]string, bool) {
+func (o *Metadata) GetTagsOk() ([]TagsInner, bool) {
 	if o == nil || IsNil(o.Tags) {
 		return nil, false
 	}
@@ -101,8 +101,8 @@ func (o *Metadata) HasTags() bool {
 	return false
 }
 
-// SetTags gets a reference to the given []string and assigns it to the Tags field.
-func (o *Metadata) SetTags(v []string) {
+// SetTags gets a reference to the given []TagsInner and assigns it to the Tags field.
+func (o *Metadata) SetTags(v []TagsInner) {
 	o.Tags = v
 }
 

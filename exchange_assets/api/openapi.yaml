@@ -871,8 +871,10 @@ components:
           name: name
           type: type
           tags:
-          - tags
-          - tags
+          - value: value
+            key: key
+          - value: value
+            key: key
         assetId: assetId
         versionGroup: versionGroup
         groupId: groupId
@@ -1109,21 +1111,35 @@ components:
           type: string
       title: assetSearchResultItem
       type: object
+    tags_inner:
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          title: key
+          type: string
+        value:
+          title: value
+          type: string
+      type: object
     metadata:
       example:
         classifier: classifier
         name: name
         type: type
         tags:
-        - tags
-        - tags
+        - value: value
+          key: key
+        - value: value
+          key: key
       properties:
         classifier:
           title: classifier
           type: string
         tags:
           items:
-            type: string
+            $ref: '#/components/schemas/tags_inner'
           title: tags
           type: array
         name:
