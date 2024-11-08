@@ -81,6 +81,7 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**DeleteConnectedApp**](docs/DefaultApi.md#deleteconnectedapp) | **Delete** /organizations/{orgId}/connectedApplications/{connAppId} | 
 *DefaultApi* | [**GetAllConnectedApps**](docs/DefaultApi.md#getallconnectedapps) | **Get** /connectedApplications | 
 *DefaultApi* | [**GetConnectedApp**](docs/DefaultApi.md#getconnectedapp) | **Get** /organizations/{orgId}/connectedApplications/{connAppId} | 
+*DefaultApi* | [**GetConnectedAppByIdOnly**](docs/DefaultApi.md#getconnectedappbyidonly) | **Get** /connectedApplications/{connAppId} | 
 *DefaultApi* | [**GetConnectedAppScopes**](docs/DefaultApi.md#getconnectedappscopes) | **Get** /organizations/{orgId}/connectedApplications/{connAppId}/scopes | 
 *DefaultApi* | [**UpdateConnectedApp**](docs/DefaultApi.md#updateconnectedapp) | **Patch** /organizations/{orgId}/connectedApplications/{connAppId} | 
 *DefaultApi* | [**UpdateConnectedAppScopes**](docs/DefaultApi.md#updateconnectedappscopes) | **Put** /organizations/{orgId}/connectedApplications/{connAppId}/scopes | 

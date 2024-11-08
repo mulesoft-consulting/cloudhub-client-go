@@ -19,6 +19,8 @@ var _ MappedNullable = &ConnectedAppRespExtAllOf{}
 
 // ConnectedAppRespExtAllOf struct for ConnectedAppRespExtAllOf
 type ConnectedAppRespExtAllOf struct {
+	// the organization where the connected app is created
+	OrgId *string `json:"org_id,omitempty"`
 	// connected app client id
 	ClientId *string `json:"client_id,omitempty"`
 	// connected app generated secret
@@ -48,6 +50,38 @@ func NewConnectedAppRespExtAllOf() *ConnectedAppRespExtAllOf {
 func NewConnectedAppRespExtAllOfWithDefaults() *ConnectedAppRespExtAllOf {
 	this := ConnectedAppRespExtAllOf{}
 	return &this
+}
+
+// GetOrgId returns the OrgId field value if set, zero value otherwise.
+func (o *ConnectedAppRespExtAllOf) GetOrgId() string {
+	if o == nil || IsNil(o.OrgId) {
+		var ret string
+		return ret
+	}
+	return *o.OrgId
+}
+
+// GetOrgIdOk returns a tuple with the OrgId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ConnectedAppRespExtAllOf) GetOrgIdOk() (*string, bool) {
+	if o == nil || IsNil(o.OrgId) {
+		return nil, false
+	}
+	return o.OrgId, true
+}
+
+// HasOrgId returns a boolean if a field has been set.
+func (o *ConnectedAppRespExtAllOf) HasOrgId() bool {
+	if o != nil && !IsNil(o.OrgId) {
+		return true
+	}
+
+	return false
+}
+
+// SetOrgId gets a reference to the given string and assigns it to the OrgId field.
+func (o *ConnectedAppRespExtAllOf) SetOrgId(v string) {
+	o.OrgId = &v
 }
 
 // GetClientId returns the ClientId field value if set, zero value otherwise.
@@ -316,6 +350,9 @@ func (o ConnectedAppRespExtAllOf) MarshalJSON() ([]byte, error) {
 
 func (o ConnectedAppRespExtAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.OrgId) {
+		toSerialize["org_id"] = o.OrgId
+	}
 	if !IsNil(o.ClientId) {
 		toSerialize["client_id"] = o.ClientId
 	}

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Name** | Pointer to **string** |  | [optional] 
 **Meta** | Pointer to [**Meta**](Meta.md) |  | [optional] 
 **ExpirationDate** | Pointer to **string** |  | [optional] 
-**Type** | Pointer to **string** |  | [optional] 
+**Target** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -103,30 +103,30 @@ SetExpirationDate sets ExpirationDate field to given value.
 
 HasExpirationDate returns a boolean if a field has been set.
 
-### GetType
+### GetTarget
 
-`func (o *TlsContextSummary) GetType() string`
+`func (o *TlsContextSummary) GetTarget() string`
 
-GetType returns the Type field if non-nil, zero value otherwise.
+GetTarget returns the Target field if non-nil, zero value otherwise.
 
-### GetTypeOk
+### GetTargetOk
 
-`func (o *TlsContextSummary) GetTypeOk() (*string, bool)`
+`func (o *TlsContextSummary) GetTargetOk() (*string, bool)`
 
-GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
+GetTargetOk returns a tuple with the Target field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetType
+### SetTarget
 
-`func (o *TlsContextSummary) SetType(v string)`
+`func (o *TlsContextSummary) SetTarget(v string)`
 
-SetType sets Type field to given value.
+SetTarget sets Target field to given value.
 
-### HasType
+### HasTarget
 
-`func (o *TlsContextSummary) HasType() bool`
+`func (o *TlsContextSummary) HasTarget() bool`
 
-HasType returns a boolean if a field has been set.
+HasTarget returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

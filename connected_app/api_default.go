@@ -507,6 +507,119 @@ func (a *DefaultApiService) GetConnectedAppExecute(r DefaultApiGetConnectedAppRe
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type DefaultApiGetConnectedAppByIdOnlyRequest struct {
+	ctx context.Context
+	ApiService *DefaultApiService
+	connAppId string
+	includeUsage *bool
+}
+
+// flag to indicate whether to return usage statistics
+func (r DefaultApiGetConnectedAppByIdOnlyRequest) IncludeUsage(includeUsage bool) DefaultApiGetConnectedAppByIdOnlyRequest {
+	r.includeUsage = &includeUsage
+	return r
+}
+
+func (r DefaultApiGetConnectedAppByIdOnlyRequest) Execute() (*ConnectedAppRespExt, *http.Response, error) {
+	return r.ApiService.GetConnectedAppByIdOnlyExecute(r)
+}
+
+/*
+GetConnectedAppByIdOnly Method for GetConnectedAppByIdOnly
+
+Get a single connected application with connected app id and without organization id
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param connAppId The ID of the connected app
+ @return DefaultApiGetConnectedAppByIdOnlyRequest
+*/
+func (a *DefaultApiService) GetConnectedAppByIdOnly(ctx context.Context, connAppId string) DefaultApiGetConnectedAppByIdOnlyRequest {
+	return DefaultApiGetConnectedAppByIdOnlyRequest{
+		ApiService: a,
+		ctx: ctx,
+		connAppId: connAppId,
+	}
+}
+
+// Execute executes the request
+//  @return ConnectedAppRespExt
+func (a *DefaultApiService) GetConnectedAppByIdOnlyExecute(r DefaultApiGetConnectedAppByIdOnlyRequest) (*ConnectedAppRespExt, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *ConnectedAppRespExt
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.GetConnectedAppByIdOnly")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/connectedApplications/{connAppId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"connAppId"+"}", url.PathEscape(parameterValueToString(r.connAppId, "connAppId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.includeUsage != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "includeUsage", r.includeUsage, "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type DefaultApiGetConnectedAppScopesRequest struct {
 	ctx context.Context
 	ApiService *DefaultApiService

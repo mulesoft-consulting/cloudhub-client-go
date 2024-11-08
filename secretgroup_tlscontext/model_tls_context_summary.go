@@ -22,7 +22,7 @@ type TlsContextSummary struct {
 	Name *string `json:"name,omitempty"`
 	Meta *Meta `json:"meta,omitempty"`
 	ExpirationDate *string `json:"expirationDate,omitempty"`
-	Type *string `json:"type,omitempty"`
+	Target *string `json:"target,omitempty"`
 }
 
 // NewTlsContextSummary instantiates a new TlsContextSummary object
@@ -138,36 +138,36 @@ func (o *TlsContextSummary) SetExpirationDate(v string) {
 	o.ExpirationDate = &v
 }
 
-// GetType returns the Type field value if set, zero value otherwise.
-func (o *TlsContextSummary) GetType() string {
-	if o == nil || IsNil(o.Type) {
+// GetTarget returns the Target field value if set, zero value otherwise.
+func (o *TlsContextSummary) GetTarget() string {
+	if o == nil || IsNil(o.Target) {
 		var ret string
 		return ret
 	}
-	return *o.Type
+	return *o.Target
 }
 
-// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
+// GetTargetOk returns a tuple with the Target field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TlsContextSummary) GetTypeOk() (*string, bool) {
-	if o == nil || IsNil(o.Type) {
+func (o *TlsContextSummary) GetTargetOk() (*string, bool) {
+	if o == nil || IsNil(o.Target) {
 		return nil, false
 	}
-	return o.Type, true
+	return o.Target, true
 }
 
-// HasType returns a boolean if a field has been set.
-func (o *TlsContextSummary) HasType() bool {
-	if o != nil && !IsNil(o.Type) {
+// HasTarget returns a boolean if a field has been set.
+func (o *TlsContextSummary) HasTarget() bool {
+	if o != nil && !IsNil(o.Target) {
 		return true
 	}
 
 	return false
 }
 
-// SetType gets a reference to the given string and assigns it to the Type field.
-func (o *TlsContextSummary) SetType(v string) {
-	o.Type = &v
+// SetTarget gets a reference to the given string and assigns it to the Target field.
+func (o *TlsContextSummary) SetTarget(v string) {
+	o.Target = &v
 }
 
 func (o TlsContextSummary) MarshalJSON() ([]byte, error) {
@@ -189,8 +189,8 @@ func (o TlsContextSummary) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ExpirationDate) {
 		toSerialize["expirationDate"] = o.ExpirationDate
 	}
-	if !IsNil(o.Type) {
-		toSerialize["type"] = o.Type
+	if !IsNil(o.Target) {
+		toSerialize["target"] = o.Target
 	}
 	return toSerialize, nil
 }

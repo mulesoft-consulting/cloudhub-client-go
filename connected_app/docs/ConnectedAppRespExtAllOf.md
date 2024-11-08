@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**OrgId** | Pointer to **string** | the organization where the connected app is created | [optional] 
 **ClientId** | Pointer to **string** | connected app client id | [optional] 
 **ClientSecret** | Pointer to **string** | connected app generated secret | [optional] 
 **OwnerOrgId** | Pointer to **string** | connected app owner organization id | [optional] 
@@ -31,6 +32,31 @@ will change when the set of required properties is changed
 NewConnectedAppRespExtAllOfWithDefaults instantiates a new ConnectedAppRespExtAllOf object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetOrgId
+
+`func (o *ConnectedAppRespExtAllOf) GetOrgId() string`
+
+GetOrgId returns the OrgId field if non-nil, zero value otherwise.
+
+### GetOrgIdOk
+
+`func (o *ConnectedAppRespExtAllOf) GetOrgIdOk() (*string, bool)`
+
+GetOrgIdOk returns a tuple with the OrgId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOrgId
+
+`func (o *ConnectedAppRespExtAllOf) SetOrgId(v string)`
+
+SetOrgId sets OrgId field to given value.
+
+### HasOrgId
+
+`func (o *ConnectedAppRespExtAllOf) HasOrgId() bool`
+
+HasOrgId returns a boolean if a field has been set.
 
 ### GetClientId
 

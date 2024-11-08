@@ -12,331 +12,131 @@ package idp
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
-// checks if the Idp type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &Idp{}
-
-// Idp struct for Idp
+// Idp - struct for Idp
 type Idp struct {
-	ProviderId *string `json:"provider_id,omitempty"`
-	OrgId *string `json:"org_id,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Type *ModelType `json:"type,omitempty"`
-	Saml *Saml `json:"saml,omitempty"`
-	AllowUntrustedCertificates *bool `json:"allow_untrusted_certificates,omitempty"`
-	OidcProvider *OidcProvider `json:"oidc_provider,omitempty"`
-	ServiceProvider *ServiceProvider `json:"service_provider,omitempty"`
+	LdapProviderGet *LdapProviderGet
+	OpenIDProviderGet *OpenIDProviderGet
+	SamlProviderGet *SamlProviderGet
 }
 
-// NewIdp instantiates a new Idp object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewIdp() *Idp {
-	this := Idp{}
-	return &this
-}
-
-// NewIdpWithDefaults instantiates a new Idp object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewIdpWithDefaults() *Idp {
-	this := Idp{}
-	return &this
-}
-
-// GetProviderId returns the ProviderId field value if set, zero value otherwise.
-func (o *Idp) GetProviderId() string {
-	if o == nil || IsNil(o.ProviderId) {
-		var ret string
-		return ret
+// LdapProviderGetAsIdp is a convenience function that returns LdapProviderGet wrapped in Idp
+func LdapProviderGetAsIdp(v *LdapProviderGet) Idp {
+	return Idp{
+		LdapProviderGet: v,
 	}
-	return *o.ProviderId
 }
 
-// GetProviderIdOk returns a tuple with the ProviderId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Idp) GetProviderIdOk() (*string, bool) {
-	if o == nil || IsNil(o.ProviderId) {
-		return nil, false
+// OpenIDProviderGetAsIdp is a convenience function that returns OpenIDProviderGet wrapped in Idp
+func OpenIDProviderGetAsIdp(v *OpenIDProviderGet) Idp {
+	return Idp{
+		OpenIDProviderGet: v,
 	}
-	return o.ProviderId, true
 }
 
-// HasProviderId returns a boolean if a field has been set.
-func (o *Idp) HasProviderId() bool {
-	if o != nil && !IsNil(o.ProviderId) {
-		return true
+// SamlProviderGetAsIdp is a convenience function that returns SamlProviderGet wrapped in Idp
+func SamlProviderGetAsIdp(v *SamlProviderGet) Idp {
+	return Idp{
+		SamlProviderGet: v,
+	}
+}
+
+
+// Unmarshal JSON data into one of the pointers in the struct
+func (dst *Idp) UnmarshalJSON(data []byte) error {
+	var err error
+	match := 0
+	// try to unmarshal data into LdapProviderGet
+	err = newStrictDecoder(data).Decode(&dst.LdapProviderGet)
+	if err == nil {
+		jsonLdapProviderGet, _ := json.Marshal(dst.LdapProviderGet)
+		if string(jsonLdapProviderGet) == "{}" { // empty struct
+			dst.LdapProviderGet = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.LdapProviderGet = nil
 	}
 
-	return false
-}
-
-// SetProviderId gets a reference to the given string and assigns it to the ProviderId field.
-func (o *Idp) SetProviderId(v string) {
-	o.ProviderId = &v
-}
-
-// GetOrgId returns the OrgId field value if set, zero value otherwise.
-func (o *Idp) GetOrgId() string {
-	if o == nil || IsNil(o.OrgId) {
-		var ret string
-		return ret
-	}
-	return *o.OrgId
-}
-
-// GetOrgIdOk returns a tuple with the OrgId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Idp) GetOrgIdOk() (*string, bool) {
-	if o == nil || IsNil(o.OrgId) {
-		return nil, false
-	}
-	return o.OrgId, true
-}
-
-// HasOrgId returns a boolean if a field has been set.
-func (o *Idp) HasOrgId() bool {
-	if o != nil && !IsNil(o.OrgId) {
-		return true
+	// try to unmarshal data into OpenIDProviderGet
+	err = newStrictDecoder(data).Decode(&dst.OpenIDProviderGet)
+	if err == nil {
+		jsonOpenIDProviderGet, _ := json.Marshal(dst.OpenIDProviderGet)
+		if string(jsonOpenIDProviderGet) == "{}" { // empty struct
+			dst.OpenIDProviderGet = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.OpenIDProviderGet = nil
 	}
 
-	return false
-}
-
-// SetOrgId gets a reference to the given string and assigns it to the OrgId field.
-func (o *Idp) SetOrgId(v string) {
-	o.OrgId = &v
-}
-
-// GetName returns the Name field value if set, zero value otherwise.
-func (o *Idp) GetName() string {
-	if o == nil || IsNil(o.Name) {
-		var ret string
-		return ret
-	}
-	return *o.Name
-}
-
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Idp) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
-		return nil, false
-	}
-	return o.Name, true
-}
-
-// HasName returns a boolean if a field has been set.
-func (o *Idp) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
-		return true
+	// try to unmarshal data into SamlProviderGet
+	err = newStrictDecoder(data).Decode(&dst.SamlProviderGet)
+	if err == nil {
+		jsonSamlProviderGet, _ := json.Marshal(dst.SamlProviderGet)
+		if string(jsonSamlProviderGet) == "{}" { // empty struct
+			dst.SamlProviderGet = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.SamlProviderGet = nil
 	}
 
-	return false
+	if match > 1 { // more than 1 match
+		// reset to nil
+		dst.LdapProviderGet = nil
+		dst.OpenIDProviderGet = nil
+		dst.SamlProviderGet = nil
+
+		return fmt.Errorf("data matches more than one schema in oneOf(Idp)")
+	} else if match == 1 {
+		return nil // exactly one match
+	} else { // no match
+		return fmt.Errorf("data failed to match schemas in oneOf(Idp)")
+	}
 }
 
-// SetName gets a reference to the given string and assigns it to the Name field.
-func (o *Idp) SetName(v string) {
-	o.Name = &v
+// Marshal data from the first non-nil pointers in the struct to JSON
+func (src Idp) MarshalJSON() ([]byte, error) {
+	if src.LdapProviderGet != nil {
+		return json.Marshal(&src.LdapProviderGet)
+	}
+
+	if src.OpenIDProviderGet != nil {
+		return json.Marshal(&src.OpenIDProviderGet)
+	}
+
+	if src.SamlProviderGet != nil {
+		return json.Marshal(&src.SamlProviderGet)
+	}
+
+	return nil, nil // no data in oneOf schemas
 }
 
-// GetType returns the Type field value if set, zero value otherwise.
-func (o *Idp) GetType() ModelType {
-	if o == nil || IsNil(o.Type) {
-		var ret ModelType
-		return ret
+// Get the actual instance
+func (obj *Idp) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
 	}
-	return *o.Type
-}
-
-// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Idp) GetTypeOk() (*ModelType, bool) {
-	if o == nil || IsNil(o.Type) {
-		return nil, false
-	}
-	return o.Type, true
-}
-
-// HasType returns a boolean if a field has been set.
-func (o *Idp) HasType() bool {
-	if o != nil && !IsNil(o.Type) {
-		return true
+	if obj.LdapProviderGet != nil {
+		return obj.LdapProviderGet
 	}
 
-	return false
-}
-
-// SetType gets a reference to the given ModelType and assigns it to the Type field.
-func (o *Idp) SetType(v ModelType) {
-	o.Type = &v
-}
-
-// GetSaml returns the Saml field value if set, zero value otherwise.
-func (o *Idp) GetSaml() Saml {
-	if o == nil || IsNil(o.Saml) {
-		var ret Saml
-		return ret
-	}
-	return *o.Saml
-}
-
-// GetSamlOk returns a tuple with the Saml field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Idp) GetSamlOk() (*Saml, bool) {
-	if o == nil || IsNil(o.Saml) {
-		return nil, false
-	}
-	return o.Saml, true
-}
-
-// HasSaml returns a boolean if a field has been set.
-func (o *Idp) HasSaml() bool {
-	if o != nil && !IsNil(o.Saml) {
-		return true
+	if obj.OpenIDProviderGet != nil {
+		return obj.OpenIDProviderGet
 	}
 
-	return false
-}
-
-// SetSaml gets a reference to the given Saml and assigns it to the Saml field.
-func (o *Idp) SetSaml(v Saml) {
-	o.Saml = &v
-}
-
-// GetAllowUntrustedCertificates returns the AllowUntrustedCertificates field value if set, zero value otherwise.
-func (o *Idp) GetAllowUntrustedCertificates() bool {
-	if o == nil || IsNil(o.AllowUntrustedCertificates) {
-		var ret bool
-		return ret
-	}
-	return *o.AllowUntrustedCertificates
-}
-
-// GetAllowUntrustedCertificatesOk returns a tuple with the AllowUntrustedCertificates field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Idp) GetAllowUntrustedCertificatesOk() (*bool, bool) {
-	if o == nil || IsNil(o.AllowUntrustedCertificates) {
-		return nil, false
-	}
-	return o.AllowUntrustedCertificates, true
-}
-
-// HasAllowUntrustedCertificates returns a boolean if a field has been set.
-func (o *Idp) HasAllowUntrustedCertificates() bool {
-	if o != nil && !IsNil(o.AllowUntrustedCertificates) {
-		return true
+	if obj.SamlProviderGet != nil {
+		return obj.SamlProviderGet
 	}
 
-	return false
-}
-
-// SetAllowUntrustedCertificates gets a reference to the given bool and assigns it to the AllowUntrustedCertificates field.
-func (o *Idp) SetAllowUntrustedCertificates(v bool) {
-	o.AllowUntrustedCertificates = &v
-}
-
-// GetOidcProvider returns the OidcProvider field value if set, zero value otherwise.
-func (o *Idp) GetOidcProvider() OidcProvider {
-	if o == nil || IsNil(o.OidcProvider) {
-		var ret OidcProvider
-		return ret
-	}
-	return *o.OidcProvider
-}
-
-// GetOidcProviderOk returns a tuple with the OidcProvider field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Idp) GetOidcProviderOk() (*OidcProvider, bool) {
-	if o == nil || IsNil(o.OidcProvider) {
-		return nil, false
-	}
-	return o.OidcProvider, true
-}
-
-// HasOidcProvider returns a boolean if a field has been set.
-func (o *Idp) HasOidcProvider() bool {
-	if o != nil && !IsNil(o.OidcProvider) {
-		return true
-	}
-
-	return false
-}
-
-// SetOidcProvider gets a reference to the given OidcProvider and assigns it to the OidcProvider field.
-func (o *Idp) SetOidcProvider(v OidcProvider) {
-	o.OidcProvider = &v
-}
-
-// GetServiceProvider returns the ServiceProvider field value if set, zero value otherwise.
-func (o *Idp) GetServiceProvider() ServiceProvider {
-	if o == nil || IsNil(o.ServiceProvider) {
-		var ret ServiceProvider
-		return ret
-	}
-	return *o.ServiceProvider
-}
-
-// GetServiceProviderOk returns a tuple with the ServiceProvider field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Idp) GetServiceProviderOk() (*ServiceProvider, bool) {
-	if o == nil || IsNil(o.ServiceProvider) {
-		return nil, false
-	}
-	return o.ServiceProvider, true
-}
-
-// HasServiceProvider returns a boolean if a field has been set.
-func (o *Idp) HasServiceProvider() bool {
-	if o != nil && !IsNil(o.ServiceProvider) {
-		return true
-	}
-
-	return false
-}
-
-// SetServiceProvider gets a reference to the given ServiceProvider and assigns it to the ServiceProvider field.
-func (o *Idp) SetServiceProvider(v ServiceProvider) {
-	o.ServiceProvider = &v
-}
-
-func (o Idp) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o Idp) ToMap() (map[string]interface{}, error) {
-	toSerialize := map[string]interface{}{}
-	if !IsNil(o.ProviderId) {
-		toSerialize["provider_id"] = o.ProviderId
-	}
-	if !IsNil(o.OrgId) {
-		toSerialize["org_id"] = o.OrgId
-	}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
-	}
-	if !IsNil(o.Type) {
-		toSerialize["type"] = o.Type
-	}
-	if !IsNil(o.Saml) {
-		toSerialize["saml"] = o.Saml
-	}
-	if !IsNil(o.AllowUntrustedCertificates) {
-		toSerialize["allow_untrusted_certificates"] = o.AllowUntrustedCertificates
-	}
-	if !IsNil(o.OidcProvider) {
-		toSerialize["oidc_provider"] = o.OidcProvider
-	}
-	if !IsNil(o.ServiceProvider) {
-		toSerialize["service_provider"] = o.ServiceProvider
-	}
-	return toSerialize, nil
+	// all schemas are nil
+	return nil
 }
 
 type NullableIdp struct {

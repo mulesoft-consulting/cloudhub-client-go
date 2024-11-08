@@ -19,18 +19,22 @@ var _ MappedNullable = &IdpSummary{}
 
 // IdpSummary struct for IdpSummary
 type IdpSummary struct {
-	ProviderId *string `json:"provider_id,omitempty"`
-	OrgId *string `json:"org_id,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Type *ModelType `json:"type,omitempty"`
+	ProviderId string `json:"provider_id"`
+	OrgId string `json:"org_id"`
+	Name string `json:"name"`
+	Type IdpSummaryType `json:"type"`
 }
 
 // NewIdpSummary instantiates a new IdpSummary object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewIdpSummary() *IdpSummary {
+func NewIdpSummary(providerId string, orgId string, name string, type_ IdpSummaryType) *IdpSummary {
 	this := IdpSummary{}
+	this.ProviderId = providerId
+	this.OrgId = orgId
+	this.Name = name
+	this.Type = type_
 	return &this
 }
 
@@ -42,132 +46,100 @@ func NewIdpSummaryWithDefaults() *IdpSummary {
 	return &this
 }
 
-// GetProviderId returns the ProviderId field value if set, zero value otherwise.
+// GetProviderId returns the ProviderId field value
 func (o *IdpSummary) GetProviderId() string {
-	if o == nil || IsNil(o.ProviderId) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.ProviderId
+
+	return o.ProviderId
 }
 
-// GetProviderIdOk returns a tuple with the ProviderId field value if set, nil otherwise
+// GetProviderIdOk returns a tuple with the ProviderId field value
 // and a boolean to check if the value has been set.
 func (o *IdpSummary) GetProviderIdOk() (*string, bool) {
-	if o == nil || IsNil(o.ProviderId) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ProviderId, true
+	return &o.ProviderId, true
 }
 
-// HasProviderId returns a boolean if a field has been set.
-func (o *IdpSummary) HasProviderId() bool {
-	if o != nil && !IsNil(o.ProviderId) {
-		return true
-	}
-
-	return false
-}
-
-// SetProviderId gets a reference to the given string and assigns it to the ProviderId field.
+// SetProviderId sets field value
 func (o *IdpSummary) SetProviderId(v string) {
-	o.ProviderId = &v
+	o.ProviderId = v
 }
 
-// GetOrgId returns the OrgId field value if set, zero value otherwise.
+// GetOrgId returns the OrgId field value
 func (o *IdpSummary) GetOrgId() string {
-	if o == nil || IsNil(o.OrgId) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.OrgId
+
+	return o.OrgId
 }
 
-// GetOrgIdOk returns a tuple with the OrgId field value if set, nil otherwise
+// GetOrgIdOk returns a tuple with the OrgId field value
 // and a boolean to check if the value has been set.
 func (o *IdpSummary) GetOrgIdOk() (*string, bool) {
-	if o == nil || IsNil(o.OrgId) {
+	if o == nil {
 		return nil, false
 	}
-	return o.OrgId, true
+	return &o.OrgId, true
 }
 
-// HasOrgId returns a boolean if a field has been set.
-func (o *IdpSummary) HasOrgId() bool {
-	if o != nil && !IsNil(o.OrgId) {
-		return true
-	}
-
-	return false
-}
-
-// SetOrgId gets a reference to the given string and assigns it to the OrgId field.
+// SetOrgId sets field value
 func (o *IdpSummary) SetOrgId(v string) {
-	o.OrgId = &v
+	o.OrgId = v
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value
 func (o *IdpSummary) GetName() string {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *IdpSummary) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *IdpSummary) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value
 func (o *IdpSummary) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
-// GetType returns the Type field value if set, zero value otherwise.
-func (o *IdpSummary) GetType() ModelType {
-	if o == nil || IsNil(o.Type) {
-		var ret ModelType
+// GetType returns the Type field value
+func (o *IdpSummary) GetType() IdpSummaryType {
+	if o == nil {
+		var ret IdpSummaryType
 		return ret
 	}
-	return *o.Type
+
+	return o.Type
 }
 
-// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
+// GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *IdpSummary) GetTypeOk() (*ModelType, bool) {
-	if o == nil || IsNil(o.Type) {
+func (o *IdpSummary) GetTypeOk() (*IdpSummaryType, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Type, true
+	return &o.Type, true
 }
 
-// HasType returns a boolean if a field has been set.
-func (o *IdpSummary) HasType() bool {
-	if o != nil && !IsNil(o.Type) {
-		return true
-	}
-
-	return false
-}
-
-// SetType gets a reference to the given ModelType and assigns it to the Type field.
-func (o *IdpSummary) SetType(v ModelType) {
-	o.Type = &v
+// SetType sets field value
+func (o *IdpSummary) SetType(v IdpSummaryType) {
+	o.Type = v
 }
 
 func (o IdpSummary) MarshalJSON() ([]byte, error) {
@@ -180,18 +152,10 @@ func (o IdpSummary) MarshalJSON() ([]byte, error) {
 
 func (o IdpSummary) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.ProviderId) {
-		toSerialize["provider_id"] = o.ProviderId
-	}
-	if !IsNil(o.OrgId) {
-		toSerialize["org_id"] = o.OrgId
-	}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
-	}
-	if !IsNil(o.Type) {
-		toSerialize["type"] = o.Type
-	}
+	toSerialize["provider_id"] = o.ProviderId
+	toSerialize["org_id"] = o.OrgId
+	toSerialize["name"] = o.Name
+	toSerialize["type"] = o.Type
 	return toSerialize, nil
 }
 

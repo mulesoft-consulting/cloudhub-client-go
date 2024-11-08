@@ -68,6 +68,37 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetAllConnectedApps_200_response'
           description: Success response
+  /connectedApplications/{connAppId}:
+    get:
+      description: Get a single connected application with connected app id and without
+        organization id
+      operationId: GetConnectedAppByIdOnly
+      parameters:
+      - description: The ID of the connected app
+        explode: false
+        in: path
+        name: connAppId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: flag to indicate whether to return usage statistics
+        explode: true
+        in: query
+        name: includeUsage
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "401":
+          description: Access token is missing or invalid
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connectedAppRespExt'
+          description: Success get response
   /organizations/{orgId}/connectedApplications:
     post:
       description: Create a new connected application
@@ -467,6 +498,11 @@ components:
       type: object
     connectedAppRespExt_allOf:
       properties:
+        org_id:
+          description: the organization where the connected app is created
+          example: bb1f55d6-563z-4f60-845c-207286484re1
+          title: org_id
+          type: string
         client_id:
           description: connected app client id
           example: 7d72415f862044199be3b739848e6adb

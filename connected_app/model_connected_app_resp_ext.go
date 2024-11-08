@@ -27,6 +27,8 @@ type ConnectedAppRespExt struct {
 	PublicKeys []string `json:"public_keys,omitempty"`
 	ClientUri *string `json:"client_uri,omitempty"`
 	Audience *string `json:"audience,omitempty"`
+	// the organization where the connected app is created
+	OrgId *string `json:"org_id,omitempty"`
 	// connected app client id
 	ClientId *string `json:"client_id,omitempty"`
 	// connected app generated secret
@@ -280,6 +282,38 @@ func (o *ConnectedAppRespExt) HasAudience() bool {
 // SetAudience gets a reference to the given string and assigns it to the Audience field.
 func (o *ConnectedAppRespExt) SetAudience(v string) {
 	o.Audience = &v
+}
+
+// GetOrgId returns the OrgId field value if set, zero value otherwise.
+func (o *ConnectedAppRespExt) GetOrgId() string {
+	if o == nil || IsNil(o.OrgId) {
+		var ret string
+		return ret
+	}
+	return *o.OrgId
+}
+
+// GetOrgIdOk returns a tuple with the OrgId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ConnectedAppRespExt) GetOrgIdOk() (*string, bool) {
+	if o == nil || IsNil(o.OrgId) {
+		return nil, false
+	}
+	return o.OrgId, true
+}
+
+// HasOrgId returns a boolean if a field has been set.
+func (o *ConnectedAppRespExt) HasOrgId() bool {
+	if o != nil && !IsNil(o.OrgId) {
+		return true
+	}
+
+	return false
+}
+
+// SetOrgId gets a reference to the given string and assigns it to the OrgId field.
+func (o *ConnectedAppRespExt) SetOrgId(v string) {
+	o.OrgId = &v
 }
 
 // GetClientId returns the ClientId field value if set, zero value otherwise.
@@ -568,6 +602,9 @@ func (o ConnectedAppRespExt) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Audience) {
 		toSerialize["audience"] = o.Audience
+	}
+	if !IsNil(o.OrgId) {
+		toSerialize["org_id"] = o.OrgId
 	}
 	if !IsNil(o.ClientId) {
 		toSerialize["client_id"] = o.ClientId

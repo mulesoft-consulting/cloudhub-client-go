@@ -20,6 +20,7 @@ docs/Metadata.md
 docs/Organization.md
 docs/PatchAssetNameAndDescr.md
 docs/PostAssetResponse.md
+docs/TagsInner.md
 git_push.sh
 go.mod
 go.sum
@@ -37,5 +38,6 @@ model_metadata.go
 model_organization.go
 model_patch_asset_name_and_descr.go
 model_post_asset_response.go
+model_tags_inner.go
 response.go
 utils.go

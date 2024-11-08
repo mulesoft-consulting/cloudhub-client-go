@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ProviderId** | Pointer to **string** |  | [optional] 
-**OrgId** | Pointer to **string** |  | [optional] 
-**Name** | Pointer to **string** |  | [optional] 
-**Type** | Pointer to [**ModelType**](ModelType.md) |  | [optional] 
+**ProviderId** | **string** |  | 
+**OrgId** | **string** |  | 
+**Name** | **string** |  | 
+**Type** | [**IdpSummaryType**](IdpSummaryType.md) |  | 
 
 ## Methods
 
 ### NewIdpSummary
 
-`func NewIdpSummary() *IdpSummary`
+`func NewIdpSummary(providerId string, orgId string, name string, type_ IdpSummaryType, ) *IdpSummary`
 
 NewIdpSummary instantiates a new IdpSummary object
 This constructor will assign default values to properties that have it defined,
@@ -47,11 +47,6 @@ and a boolean to check if the value has been set.
 
 SetProviderId sets ProviderId field to given value.
 
-### HasProviderId
-
-`func (o *IdpSummary) HasProviderId() bool`
-
-HasProviderId returns a boolean if a field has been set.
 
 ### GetOrgId
 
@@ -72,11 +67,6 @@ and a boolean to check if the value has been set.
 
 SetOrgId sets OrgId field to given value.
 
-### HasOrgId
-
-`func (o *IdpSummary) HasOrgId() bool`
-
-HasOrgId returns a boolean if a field has been set.
 
 ### GetName
 
@@ -97,36 +87,26 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
-### HasName
-
-`func (o *IdpSummary) HasName() bool`
-
-HasName returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *IdpSummary) GetType() ModelType`
+`func (o *IdpSummary) GetType() IdpSummaryType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *IdpSummary) GetTypeOk() (*ModelType, bool)`
+`func (o *IdpSummary) GetTypeOk() (*IdpSummaryType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *IdpSummary) SetType(v ModelType)`
+`func (o *IdpSummary) SetType(v IdpSummaryType)`
 
 SetType sets Type field to given value.
 
-### HasType
-
-`func (o *IdpSummary) HasType() bool`
-
-HasType returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

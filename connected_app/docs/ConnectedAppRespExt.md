@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **PublicKeys** | Pointer to **[]string** | Application public key (PEM format). Used to validate JWT authorization grants. | [optional] 
 **ClientUri** | Pointer to **string** |  | [optional] 
 **Audience** | Pointer to **string** |  | [optional] 
+**OrgId** | Pointer to **string** | the organization where the connected app is created | [optional] 
 **ClientId** | Pointer to **string** | connected app client id | [optional] 
 **ClientSecret** | Pointer to **string** | connected app generated secret | [optional] 
 **OwnerOrgId** | Pointer to **string** | connected app owner organization id | [optional] 
@@ -213,6 +214,31 @@ SetAudience sets Audience field to given value.
 `func (o *ConnectedAppRespExt) HasAudience() bool`
 
 HasAudience returns a boolean if a field has been set.
+
+### GetOrgId
+
+`func (o *ConnectedAppRespExt) GetOrgId() string`
+
+GetOrgId returns the OrgId field if non-nil, zero value otherwise.
+
+### GetOrgIdOk
+
+`func (o *ConnectedAppRespExt) GetOrgIdOk() (*string, bool)`
+
+GetOrgIdOk returns a tuple with the OrgId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOrgId
+
+`func (o *ConnectedAppRespExt) SetOrgId(v string)`
+
+SetOrgId sets OrgId field to given value.
+
+### HasOrgId
+
+`func (o *ConnectedAppRespExt) HasOrgId() bool`
+
+HasOrgId returns a boolean if a field has been set.
 
 ### GetClientId
 

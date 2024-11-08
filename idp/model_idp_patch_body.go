@@ -12,259 +12,131 @@ package idp
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
-// checks if the IdpPatchBody type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &IdpPatchBody{}
-
-// IdpPatchBody struct for IdpPatchBody
+// IdpPatchBody - struct for IdpPatchBody
 type IdpPatchBody struct {
-	Name *string `json:"name,omitempty"`
-	Type *IdpPatchBodyType `json:"type,omitempty"`
-	OidcProvider *OidcProvider1 `json:"oidc_provider,omitempty"`
-	AllowUntrustedCertificates *bool `json:"allow_untrusted_certificates,omitempty"`
-	Saml *Saml1 `json:"saml,omitempty"`
-	ServiceProvider *ServiceProvider1 `json:"service_provider,omitempty"`
+	LdapProviderPatch *LdapProviderPatch
+	OpenIDProviderPatch *OpenIDProviderPatch
+	SamlProviderPatch *SamlProviderPatch
 }
 
-// NewIdpPatchBody instantiates a new IdpPatchBody object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewIdpPatchBody() *IdpPatchBody {
-	this := IdpPatchBody{}
-	return &this
-}
-
-// NewIdpPatchBodyWithDefaults instantiates a new IdpPatchBody object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewIdpPatchBodyWithDefaults() *IdpPatchBody {
-	this := IdpPatchBody{}
-	return &this
-}
-
-// GetName returns the Name field value if set, zero value otherwise.
-func (o *IdpPatchBody) GetName() string {
-	if o == nil || IsNil(o.Name) {
-		var ret string
-		return ret
+// LdapProviderPatchAsIdpPatchBody is a convenience function that returns LdapProviderPatch wrapped in IdpPatchBody
+func LdapProviderPatchAsIdpPatchBody(v *LdapProviderPatch) IdpPatchBody {
+	return IdpPatchBody{
+		LdapProviderPatch: v,
 	}
-	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *IdpPatchBody) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
-		return nil, false
+// OpenIDProviderPatchAsIdpPatchBody is a convenience function that returns OpenIDProviderPatch wrapped in IdpPatchBody
+func OpenIDProviderPatchAsIdpPatchBody(v *OpenIDProviderPatch) IdpPatchBody {
+	return IdpPatchBody{
+		OpenIDProviderPatch: v,
 	}
-	return o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *IdpPatchBody) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
-		return true
+// SamlProviderPatchAsIdpPatchBody is a convenience function that returns SamlProviderPatch wrapped in IdpPatchBody
+func SamlProviderPatchAsIdpPatchBody(v *SamlProviderPatch) IdpPatchBody {
+	return IdpPatchBody{
+		SamlProviderPatch: v,
+	}
+}
+
+
+// Unmarshal JSON data into one of the pointers in the struct
+func (dst *IdpPatchBody) UnmarshalJSON(data []byte) error {
+	var err error
+	match := 0
+	// try to unmarshal data into LdapProviderPatch
+	err = newStrictDecoder(data).Decode(&dst.LdapProviderPatch)
+	if err == nil {
+		jsonLdapProviderPatch, _ := json.Marshal(dst.LdapProviderPatch)
+		if string(jsonLdapProviderPatch) == "{}" { // empty struct
+			dst.LdapProviderPatch = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.LdapProviderPatch = nil
 	}
 
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
-func (o *IdpPatchBody) SetName(v string) {
-	o.Name = &v
-}
-
-// GetType returns the Type field value if set, zero value otherwise.
-func (o *IdpPatchBody) GetType() IdpPatchBodyType {
-	if o == nil || IsNil(o.Type) {
-		var ret IdpPatchBodyType
-		return ret
-	}
-	return *o.Type
-}
-
-// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *IdpPatchBody) GetTypeOk() (*IdpPatchBodyType, bool) {
-	if o == nil || IsNil(o.Type) {
-		return nil, false
-	}
-	return o.Type, true
-}
-
-// HasType returns a boolean if a field has been set.
-func (o *IdpPatchBody) HasType() bool {
-	if o != nil && !IsNil(o.Type) {
-		return true
+	// try to unmarshal data into OpenIDProviderPatch
+	err = newStrictDecoder(data).Decode(&dst.OpenIDProviderPatch)
+	if err == nil {
+		jsonOpenIDProviderPatch, _ := json.Marshal(dst.OpenIDProviderPatch)
+		if string(jsonOpenIDProviderPatch) == "{}" { // empty struct
+			dst.OpenIDProviderPatch = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.OpenIDProviderPatch = nil
 	}
 
-	return false
-}
-
-// SetType gets a reference to the given IdpPatchBodyType and assigns it to the Type field.
-func (o *IdpPatchBody) SetType(v IdpPatchBodyType) {
-	o.Type = &v
-}
-
-// GetOidcProvider returns the OidcProvider field value if set, zero value otherwise.
-func (o *IdpPatchBody) GetOidcProvider() OidcProvider1 {
-	if o == nil || IsNil(o.OidcProvider) {
-		var ret OidcProvider1
-		return ret
-	}
-	return *o.OidcProvider
-}
-
-// GetOidcProviderOk returns a tuple with the OidcProvider field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *IdpPatchBody) GetOidcProviderOk() (*OidcProvider1, bool) {
-	if o == nil || IsNil(o.OidcProvider) {
-		return nil, false
-	}
-	return o.OidcProvider, true
-}
-
-// HasOidcProvider returns a boolean if a field has been set.
-func (o *IdpPatchBody) HasOidcProvider() bool {
-	if o != nil && !IsNil(o.OidcProvider) {
-		return true
+	// try to unmarshal data into SamlProviderPatch
+	err = newStrictDecoder(data).Decode(&dst.SamlProviderPatch)
+	if err == nil {
+		jsonSamlProviderPatch, _ := json.Marshal(dst.SamlProviderPatch)
+		if string(jsonSamlProviderPatch) == "{}" { // empty struct
+			dst.SamlProviderPatch = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.SamlProviderPatch = nil
 	}
 
-	return false
+	if match > 1 { // more than 1 match
+		// reset to nil
+		dst.LdapProviderPatch = nil
+		dst.OpenIDProviderPatch = nil
+		dst.SamlProviderPatch = nil
+
+		return fmt.Errorf("data matches more than one schema in oneOf(IdpPatchBody)")
+	} else if match == 1 {
+		return nil // exactly one match
+	} else { // no match
+		return fmt.Errorf("data failed to match schemas in oneOf(IdpPatchBody)")
+	}
 }
 
-// SetOidcProvider gets a reference to the given OidcProvider1 and assigns it to the OidcProvider field.
-func (o *IdpPatchBody) SetOidcProvider(v OidcProvider1) {
-	o.OidcProvider = &v
+// Marshal data from the first non-nil pointers in the struct to JSON
+func (src IdpPatchBody) MarshalJSON() ([]byte, error) {
+	if src.LdapProviderPatch != nil {
+		return json.Marshal(&src.LdapProviderPatch)
+	}
+
+	if src.OpenIDProviderPatch != nil {
+		return json.Marshal(&src.OpenIDProviderPatch)
+	}
+
+	if src.SamlProviderPatch != nil {
+		return json.Marshal(&src.SamlProviderPatch)
+	}
+
+	return nil, nil // no data in oneOf schemas
 }
 
-// GetAllowUntrustedCertificates returns the AllowUntrustedCertificates field value if set, zero value otherwise.
-func (o *IdpPatchBody) GetAllowUntrustedCertificates() bool {
-	if o == nil || IsNil(o.AllowUntrustedCertificates) {
-		var ret bool
-		return ret
+// Get the actual instance
+func (obj *IdpPatchBody) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
 	}
-	return *o.AllowUntrustedCertificates
-}
-
-// GetAllowUntrustedCertificatesOk returns a tuple with the AllowUntrustedCertificates field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *IdpPatchBody) GetAllowUntrustedCertificatesOk() (*bool, bool) {
-	if o == nil || IsNil(o.AllowUntrustedCertificates) {
-		return nil, false
-	}
-	return o.AllowUntrustedCertificates, true
-}
-
-// HasAllowUntrustedCertificates returns a boolean if a field has been set.
-func (o *IdpPatchBody) HasAllowUntrustedCertificates() bool {
-	if o != nil && !IsNil(o.AllowUntrustedCertificates) {
-		return true
+	if obj.LdapProviderPatch != nil {
+		return obj.LdapProviderPatch
 	}
 
-	return false
-}
-
-// SetAllowUntrustedCertificates gets a reference to the given bool and assigns it to the AllowUntrustedCertificates field.
-func (o *IdpPatchBody) SetAllowUntrustedCertificates(v bool) {
-	o.AllowUntrustedCertificates = &v
-}
-
-// GetSaml returns the Saml field value if set, zero value otherwise.
-func (o *IdpPatchBody) GetSaml() Saml1 {
-	if o == nil || IsNil(o.Saml) {
-		var ret Saml1
-		return ret
-	}
-	return *o.Saml
-}
-
-// GetSamlOk returns a tuple with the Saml field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *IdpPatchBody) GetSamlOk() (*Saml1, bool) {
-	if o == nil || IsNil(o.Saml) {
-		return nil, false
-	}
-	return o.Saml, true
-}
-
-// HasSaml returns a boolean if a field has been set.
-func (o *IdpPatchBody) HasSaml() bool {
-	if o != nil && !IsNil(o.Saml) {
-		return true
+	if obj.OpenIDProviderPatch != nil {
+		return obj.OpenIDProviderPatch
 	}
 
-	return false
-}
-
-// SetSaml gets a reference to the given Saml1 and assigns it to the Saml field.
-func (o *IdpPatchBody) SetSaml(v Saml1) {
-	o.Saml = &v
-}
-
-// GetServiceProvider returns the ServiceProvider field value if set, zero value otherwise.
-func (o *IdpPatchBody) GetServiceProvider() ServiceProvider1 {
-	if o == nil || IsNil(o.ServiceProvider) {
-		var ret ServiceProvider1
-		return ret
-	}
-	return *o.ServiceProvider
-}
-
-// GetServiceProviderOk returns a tuple with the ServiceProvider field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *IdpPatchBody) GetServiceProviderOk() (*ServiceProvider1, bool) {
-	if o == nil || IsNil(o.ServiceProvider) {
-		return nil, false
-	}
-	return o.ServiceProvider, true
-}
-
-// HasServiceProvider returns a boolean if a field has been set.
-func (o *IdpPatchBody) HasServiceProvider() bool {
-	if o != nil && !IsNil(o.ServiceProvider) {
-		return true
+	if obj.SamlProviderPatch != nil {
+		return obj.SamlProviderPatch
 	}
 
-	return false
-}
-
-// SetServiceProvider gets a reference to the given ServiceProvider1 and assigns it to the ServiceProvider field.
-func (o *IdpPatchBody) SetServiceProvider(v ServiceProvider1) {
-	o.ServiceProvider = &v
-}
-
-func (o IdpPatchBody) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o IdpPatchBody) ToMap() (map[string]interface{}, error) {
-	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
-	}
-	if !IsNil(o.Type) {
-		toSerialize["type"] = o.Type
-	}
-	if !IsNil(o.OidcProvider) {
-		toSerialize["oidc_provider"] = o.OidcProvider
-	}
-	if !IsNil(o.AllowUntrustedCertificates) {
-		toSerialize["allow_untrusted_certificates"] = o.AllowUntrustedCertificates
-	}
-	if !IsNil(o.Saml) {
-		toSerialize["saml"] = o.Saml
-	}
-	if !IsNil(o.ServiceProvider) {
-		toSerialize["service_provider"] = o.ServiceProvider
-	}
-	return toSerialize, nil
+	// all schemas are nil
+	return nil
 }
 
 type NullableIdpPatchBody struct {

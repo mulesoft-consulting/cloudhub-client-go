@@ -12,259 +12,161 @@ package idp
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
-// checks if the IdpPostBody type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &IdpPostBody{}
-
-// IdpPostBody struct for IdpPostBody
+// IdpPostBody - struct for IdpPostBody
 type IdpPostBody struct {
-	Name *string `json:"name,omitempty"`
-	Type *IdpPostBodyType `json:"type,omitempty"`
-	OidcProvider *OidcProvider1 `json:"oidc_provider,omitempty"`
-	AllowUntrustedCertificates *bool `json:"allow_untrusted_certificates,omitempty"`
-	Saml *Saml1 `json:"saml,omitempty"`
-	ServiceProvider *ServiceProvider1 `json:"service_provider,omitempty"`
+	LdapProviderPostBody *LdapProviderPostBody
+	OpenIDProviderDynamicPostBody *OpenIDProviderDynamicPostBody
+	OpenIDProviderManualPostBody *OpenIDProviderManualPostBody
+	SamlProviderPostBody *SamlProviderPostBody
 }
 
-// NewIdpPostBody instantiates a new IdpPostBody object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewIdpPostBody() *IdpPostBody {
-	this := IdpPostBody{}
-	return &this
-}
-
-// NewIdpPostBodyWithDefaults instantiates a new IdpPostBody object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewIdpPostBodyWithDefaults() *IdpPostBody {
-	this := IdpPostBody{}
-	return &this
-}
-
-// GetName returns the Name field value if set, zero value otherwise.
-func (o *IdpPostBody) GetName() string {
-	if o == nil || IsNil(o.Name) {
-		var ret string
-		return ret
+// LdapProviderPostBodyAsIdpPostBody is a convenience function that returns LdapProviderPostBody wrapped in IdpPostBody
+func LdapProviderPostBodyAsIdpPostBody(v *LdapProviderPostBody) IdpPostBody {
+	return IdpPostBody{
+		LdapProviderPostBody: v,
 	}
-	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *IdpPostBody) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
-		return nil, false
+// OpenIDProviderDynamicPostBodyAsIdpPostBody is a convenience function that returns OpenIDProviderDynamicPostBody wrapped in IdpPostBody
+func OpenIDProviderDynamicPostBodyAsIdpPostBody(v *OpenIDProviderDynamicPostBody) IdpPostBody {
+	return IdpPostBody{
+		OpenIDProviderDynamicPostBody: v,
 	}
-	return o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *IdpPostBody) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
-		return true
+// OpenIDProviderManualPostBodyAsIdpPostBody is a convenience function that returns OpenIDProviderManualPostBody wrapped in IdpPostBody
+func OpenIDProviderManualPostBodyAsIdpPostBody(v *OpenIDProviderManualPostBody) IdpPostBody {
+	return IdpPostBody{
+		OpenIDProviderManualPostBody: v,
 	}
-
-	return false
 }
 
-// SetName gets a reference to the given string and assigns it to the Name field.
-func (o *IdpPostBody) SetName(v string) {
-	o.Name = &v
-}
-
-// GetType returns the Type field value if set, zero value otherwise.
-func (o *IdpPostBody) GetType() IdpPostBodyType {
-	if o == nil || IsNil(o.Type) {
-		var ret IdpPostBodyType
-		return ret
+// SamlProviderPostBodyAsIdpPostBody is a convenience function that returns SamlProviderPostBody wrapped in IdpPostBody
+func SamlProviderPostBodyAsIdpPostBody(v *SamlProviderPostBody) IdpPostBody {
+	return IdpPostBody{
+		SamlProviderPostBody: v,
 	}
-	return *o.Type
 }
 
-// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *IdpPostBody) GetTypeOk() (*IdpPostBodyType, bool) {
-	if o == nil || IsNil(o.Type) {
-		return nil, false
-	}
-	return o.Type, true
-}
 
-// HasType returns a boolean if a field has been set.
-func (o *IdpPostBody) HasType() bool {
-	if o != nil && !IsNil(o.Type) {
-		return true
+// Unmarshal JSON data into one of the pointers in the struct
+func (dst *IdpPostBody) UnmarshalJSON(data []byte) error {
+	var err error
+	match := 0
+	// try to unmarshal data into LdapProviderPostBody
+	err = newStrictDecoder(data).Decode(&dst.LdapProviderPostBody)
+	if err == nil {
+		jsonLdapProviderPostBody, _ := json.Marshal(dst.LdapProviderPostBody)
+		if string(jsonLdapProviderPostBody) == "{}" { // empty struct
+			dst.LdapProviderPostBody = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.LdapProviderPostBody = nil
 	}
 
-	return false
-}
-
-// SetType gets a reference to the given IdpPostBodyType and assigns it to the Type field.
-func (o *IdpPostBody) SetType(v IdpPostBodyType) {
-	o.Type = &v
-}
-
-// GetOidcProvider returns the OidcProvider field value if set, zero value otherwise.
-func (o *IdpPostBody) GetOidcProvider() OidcProvider1 {
-	if o == nil || IsNil(o.OidcProvider) {
-		var ret OidcProvider1
-		return ret
-	}
-	return *o.OidcProvider
-}
-
-// GetOidcProviderOk returns a tuple with the OidcProvider field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *IdpPostBody) GetOidcProviderOk() (*OidcProvider1, bool) {
-	if o == nil || IsNil(o.OidcProvider) {
-		return nil, false
-	}
-	return o.OidcProvider, true
-}
-
-// HasOidcProvider returns a boolean if a field has been set.
-func (o *IdpPostBody) HasOidcProvider() bool {
-	if o != nil && !IsNil(o.OidcProvider) {
-		return true
+	// try to unmarshal data into OpenIDProviderDynamicPostBody
+	err = newStrictDecoder(data).Decode(&dst.OpenIDProviderDynamicPostBody)
+	if err == nil {
+		jsonOpenIDProviderDynamicPostBody, _ := json.Marshal(dst.OpenIDProviderDynamicPostBody)
+		if string(jsonOpenIDProviderDynamicPostBody) == "{}" { // empty struct
+			dst.OpenIDProviderDynamicPostBody = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.OpenIDProviderDynamicPostBody = nil
 	}
 
-	return false
+	// try to unmarshal data into OpenIDProviderManualPostBody
+	err = newStrictDecoder(data).Decode(&dst.OpenIDProviderManualPostBody)
+	if err == nil {
+		jsonOpenIDProviderManualPostBody, _ := json.Marshal(dst.OpenIDProviderManualPostBody)
+		if string(jsonOpenIDProviderManualPostBody) == "{}" { // empty struct
+			dst.OpenIDProviderManualPostBody = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.OpenIDProviderManualPostBody = nil
+	}
+
+	// try to unmarshal data into SamlProviderPostBody
+	err = newStrictDecoder(data).Decode(&dst.SamlProviderPostBody)
+	if err == nil {
+		jsonSamlProviderPostBody, _ := json.Marshal(dst.SamlProviderPostBody)
+		if string(jsonSamlProviderPostBody) == "{}" { // empty struct
+			dst.SamlProviderPostBody = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.SamlProviderPostBody = nil
+	}
+
+	if match > 1 { // more than 1 match
+		// reset to nil
+		dst.LdapProviderPostBody = nil
+		dst.OpenIDProviderDynamicPostBody = nil
+		dst.OpenIDProviderManualPostBody = nil
+		dst.SamlProviderPostBody = nil
+
+		return fmt.Errorf("data matches more than one schema in oneOf(IdpPostBody)")
+	} else if match == 1 {
+		return nil // exactly one match
+	} else { // no match
+		return fmt.Errorf("data failed to match schemas in oneOf(IdpPostBody)")
+	}
 }
 
-// SetOidcProvider gets a reference to the given OidcProvider1 and assigns it to the OidcProvider field.
-func (o *IdpPostBody) SetOidcProvider(v OidcProvider1) {
-	o.OidcProvider = &v
+// Marshal data from the first non-nil pointers in the struct to JSON
+func (src IdpPostBody) MarshalJSON() ([]byte, error) {
+	if src.LdapProviderPostBody != nil {
+		return json.Marshal(&src.LdapProviderPostBody)
+	}
+
+	if src.OpenIDProviderDynamicPostBody != nil {
+		return json.Marshal(&src.OpenIDProviderDynamicPostBody)
+	}
+
+	if src.OpenIDProviderManualPostBody != nil {
+		return json.Marshal(&src.OpenIDProviderManualPostBody)
+	}
+
+	if src.SamlProviderPostBody != nil {
+		return json.Marshal(&src.SamlProviderPostBody)
+	}
+
+	return nil, nil // no data in oneOf schemas
 }
 
-// GetAllowUntrustedCertificates returns the AllowUntrustedCertificates field value if set, zero value otherwise.
-func (o *IdpPostBody) GetAllowUntrustedCertificates() bool {
-	if o == nil || IsNil(o.AllowUntrustedCertificates) {
-		var ret bool
-		return ret
+// Get the actual instance
+func (obj *IdpPostBody) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
 	}
-	return *o.AllowUntrustedCertificates
-}
-
-// GetAllowUntrustedCertificatesOk returns a tuple with the AllowUntrustedCertificates field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *IdpPostBody) GetAllowUntrustedCertificatesOk() (*bool, bool) {
-	if o == nil || IsNil(o.AllowUntrustedCertificates) {
-		return nil, false
-	}
-	return o.AllowUntrustedCertificates, true
-}
-
-// HasAllowUntrustedCertificates returns a boolean if a field has been set.
-func (o *IdpPostBody) HasAllowUntrustedCertificates() bool {
-	if o != nil && !IsNil(o.AllowUntrustedCertificates) {
-		return true
+	if obj.LdapProviderPostBody != nil {
+		return obj.LdapProviderPostBody
 	}
 
-	return false
-}
-
-// SetAllowUntrustedCertificates gets a reference to the given bool and assigns it to the AllowUntrustedCertificates field.
-func (o *IdpPostBody) SetAllowUntrustedCertificates(v bool) {
-	o.AllowUntrustedCertificates = &v
-}
-
-// GetSaml returns the Saml field value if set, zero value otherwise.
-func (o *IdpPostBody) GetSaml() Saml1 {
-	if o == nil || IsNil(o.Saml) {
-		var ret Saml1
-		return ret
-	}
-	return *o.Saml
-}
-
-// GetSamlOk returns a tuple with the Saml field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *IdpPostBody) GetSamlOk() (*Saml1, bool) {
-	if o == nil || IsNil(o.Saml) {
-		return nil, false
-	}
-	return o.Saml, true
-}
-
-// HasSaml returns a boolean if a field has been set.
-func (o *IdpPostBody) HasSaml() bool {
-	if o != nil && !IsNil(o.Saml) {
-		return true
+	if obj.OpenIDProviderDynamicPostBody != nil {
+		return obj.OpenIDProviderDynamicPostBody
 	}
 
-	return false
-}
-
-// SetSaml gets a reference to the given Saml1 and assigns it to the Saml field.
-func (o *IdpPostBody) SetSaml(v Saml1) {
-	o.Saml = &v
-}
-
-// GetServiceProvider returns the ServiceProvider field value if set, zero value otherwise.
-func (o *IdpPostBody) GetServiceProvider() ServiceProvider1 {
-	if o == nil || IsNil(o.ServiceProvider) {
-		var ret ServiceProvider1
-		return ret
-	}
-	return *o.ServiceProvider
-}
-
-// GetServiceProviderOk returns a tuple with the ServiceProvider field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *IdpPostBody) GetServiceProviderOk() (*ServiceProvider1, bool) {
-	if o == nil || IsNil(o.ServiceProvider) {
-		return nil, false
-	}
-	return o.ServiceProvider, true
-}
-
-// HasServiceProvider returns a boolean if a field has been set.
-func (o *IdpPostBody) HasServiceProvider() bool {
-	if o != nil && !IsNil(o.ServiceProvider) {
-		return true
+	if obj.OpenIDProviderManualPostBody != nil {
+		return obj.OpenIDProviderManualPostBody
 	}
 
-	return false
-}
+	if obj.SamlProviderPostBody != nil {
+		return obj.SamlProviderPostBody
+	}
 
-// SetServiceProvider gets a reference to the given ServiceProvider1 and assigns it to the ServiceProvider field.
-func (o *IdpPostBody) SetServiceProvider(v ServiceProvider1) {
-	o.ServiceProvider = &v
-}
-
-func (o IdpPostBody) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o IdpPostBody) ToMap() (map[string]interface{}, error) {
-	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
-	}
-	if !IsNil(o.Type) {
-		toSerialize["type"] = o.Type
-	}
-	if !IsNil(o.OidcProvider) {
-		toSerialize["oidc_provider"] = o.OidcProvider
-	}
-	if !IsNil(o.AllowUntrustedCertificates) {
-		toSerialize["allow_untrusted_certificates"] = o.AllowUntrustedCertificates
-	}
-	if !IsNil(o.Saml) {
-		toSerialize["saml"] = o.Saml
-	}
-	if !IsNil(o.ServiceProvider) {
-		toSerialize["service_provider"] = o.ServiceProvider
-	}
-	return toSerialize, nil
+	// all schemas are nil
+	return nil
 }
 
 type NullableIdpPostBody struct {
