@@ -118,7 +118,7 @@ paths:
               schema:
                 example: This resource does not exist
           description: Not Found response
-        "201":
+        "200":
           content:
             application/json:
               schema:
@@ -212,85 +212,278 @@ components:
             $ref: '#/components/schemas/_organizations__orgId__identityProviders_get_200_response'
       description: Success response
   schemas:
+    idp:
+      oneOf:
+      - $ref: '#/components/schemas/samlProviderGet'
+      - $ref: '#/components/schemas/ldapProviderGet'
+      - $ref: '#/components/schemas/openIDProviderGet'
+      title: idp
+    idpPostBody:
+      oneOf:
+      - $ref: '#/components/schemas/samlProviderPostBody'
+      - $ref: '#/components/schemas/ldapProviderPostBody'
+      - $ref: '#/components/schemas/openIDProviderManualPostBody'
+      - $ref: '#/components/schemas/openIDProviderDynamicPostBody'
+    idpPatchBody:
+      oneOf:
+      - $ref: '#/components/schemas/samlProviderPatch'
+      - $ref: '#/components/schemas/ldapProviderPatch'
+      - $ref: '#/components/schemas/openIDProviderPatch'
+    samlProviderPostBody:
+      additionalProperties: false
+      properties:
+        arc_namespace:
+          type: string
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/samlProviderPostBody_type'
+        service_provider:
+          $ref: '#/components/schemas/samlProviderPostBody_service_provider'
+        saml:
+          $ref: '#/components/schemas/samlProviderPostBody_saml'
+        login_disabled:
+          type: boolean
+      required:
+      - name
+      - saml
+      - service_provider
+      - type
+      type: object
+    ldapProviderPostBody:
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        arc_namespace:
+          type: string
+        type:
+          $ref: '#/components/schemas/ldapProviderPostBody_type'
+        connection:
+          $ref: '#/components/schemas/ldapProviderPostBody_connection'
+        search_bases:
+          $ref: '#/components/schemas/ldapProviderPostBody_search_bases'
+        dns:
+          $ref: '#/components/schemas/ldapProviderPostBody_search_bases'
+        filters:
+          $ref: '#/components/schemas/ldapProviderPostBody_filters'
+        user_mapping:
+          $ref: '#/components/schemas/ldapProviderPostBody_user_mapping'
+        group_mapping:
+          $ref: '#/components/schemas/ldapProviderPostBody_group_mapping'
+      required:
+      - connection
+      - dns
+      - filters
+      - group_mapping
+      - name
+      - search_bases
+      - type
+      - user_mapping
+      type: object
+    openIDProviderManualPostBody:
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        arc_namespace:
+          type: string
+        type:
+          $ref: '#/components/schemas/openIDProviderManualPostBody_type'
+        oidc_provider:
+          $ref: '#/components/schemas/openIDProviderManualPostBody_oidc_provider'
+        allow_untrusted_certificates:
+          type: boolean
+        login_disabled:
+          type: boolean
+      required:
+      - name
+      - oidc_provider
+      - type
+      type: object
+    openIDProviderDynamicPostBody:
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        arc_namespace:
+          type: string
+        type:
+          $ref: '#/components/schemas/openIDProviderManualPostBody_type'
+        oidc_provider:
+          $ref: '#/components/schemas/openIDProviderDynamicPostBody_oidc_provider'
+        allow_untrusted_certificates:
+          type: boolean
+        login_disabled:
+          type: boolean
+      required:
+      - name
+      - oidc_provider
+      - type
+      type: object
+    samlProviderPatch:
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/samlProviderPatch_type'
+        service_provider:
+          $ref: '#/components/schemas/samlProviderPatch_service_provider'
+        saml:
+          $ref: '#/components/schemas/samlProviderPatch_saml'
+        login_disabled:
+          type: boolean
+      type: object
+    ldapProviderPatch:
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/samlProviderPatch_type'
+        connection:
+          $ref: '#/components/schemas/ldapProviderPatch_connection'
+        search_bases:
+          $ref: '#/components/schemas/ldapProviderPatch_search_bases'
+        dns:
+          $ref: '#/components/schemas/ldapProviderPatch_search_bases'
+        filters:
+          $ref: '#/components/schemas/ldapProviderPatch_filters'
+        user_mapping:
+          $ref: '#/components/schemas/ldapProviderPatch_user_mapping'
+        group_mapping:
+          $ref: '#/components/schemas/ldapProviderPatch_group_mapping'
+      type: object
+    openIDProviderPatch:
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/samlProviderPatch_type'
+        oidc_provider:
+          $ref: '#/components/schemas/openIDProviderPatch_oidc_provider'
+        allow_untrusted_certificates:
+          type: boolean
+        login_disabled:
+          type: boolean
+      type: object
+    samlProviderGet:
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        org_id:
+          type: string
+        saml:
+          $ref: '#/components/schemas/samlProviderPostBody_saml'
+        service_provider:
+          $ref: '#/components/schemas/samlProviderPostBody_service_provider'
+        login_disabled:
+          type: boolean
+        arc_namespace:
+          type: string
+        provider_id:
+          type: string
+        type:
+          $ref: '#/components/schemas/samlProviderPostBody_type'
+      required:
+      - name
+      - org_id
+      - provider_id
+      - saml
+      - service_provider
+      - type
+      type: object
+    ldapProviderGet:
+      additionalProperties: false
+      properties:
+        user_mapping:
+          $ref: '#/components/schemas/ldapProviderPostBody_user_mapping'
+        filters:
+          $ref: '#/components/schemas/ldapProviderPostBody_filters'
+        name:
+          type: string
+        org_id:
+          type: string
+        dns:
+          $ref: '#/components/schemas/ldapProviderPostBody_search_bases'
+        group_mapping:
+          $ref: '#/components/schemas/ldapProviderPostBody_group_mapping'
+        connection:
+          $ref: '#/components/schemas/ldapProviderPostBody_connection'
+        arc_namespace:
+          type: string
+        provider_id:
+          type: string
+        type:
+          $ref: '#/components/schemas/ldapProviderPostBody_type'
+        search_bases:
+          $ref: '#/components/schemas/ldapProviderPostBody_search_bases'
+      required:
+      - connection
+      - dns
+      - filters
+      - group_mapping
+      - name
+      - org_id
+      - provider_id
+      - search_bases
+      - type
+      - user_mapping
+      type: object
+    openIDProviderGet:
+      additionalProperties: false
+      properties:
+        oidc_provider:
+          $ref: '#/components/schemas/openIDProviderGet_oidc_provider'
+        name:
+          type: string
+        org_id:
+          type: string
+        service_provider:
+          $ref: '#/components/schemas/openIDProviderGet_service_provider'
+        login_disabled:
+          type: boolean
+        allow_untrusted_certificates:
+          type: boolean
+        type:
+          $ref: '#/components/schemas/openIDProviderManualPostBody_type'
+        provider_id:
+          type: string
+      required:
+      - allow_untrusted_certificates
+      - name
+      - oidc_provider
+      - org_id
+      - provider_id
+      - service_provider
+      - type
+      type: object
     idpSummary:
+      additionalProperties: false
       example:
         org_id: org_id
         name: name
         provider_id: provider_id
         type:
-          name: saml
+          name: ldap
           description: description
       properties:
         provider_id:
-          title: provider_id
           type: string
         org_id:
-          title: org_id
           type: string
         name:
-          title: name
           type: string
         type:
-          $ref: '#/components/schemas/type'
-      title: idpSummary
-      type: object
-    idpSAML:
-      properties:
-        saml:
-          $ref: '#/components/schemas/saml'
-      title: idpSAML
-      type: object
-    idpOIDC:
-      properties:
-        allow_untrusted_certificates:
-          title: allow_untrusted_certificates
-          type: boolean
-        oidc_provider:
-          $ref: '#/components/schemas/oidc_provider'
-      title: idpOIDC
-      type: object
-    idp:
-      allOf:
-      - $ref: '#/components/schemas/idpSummary'
-      - $ref: '#/components/schemas/idpSAML'
-      - $ref: '#/components/schemas/idpOIDC'
-      - $ref: '#/components/schemas/idpCommonProps'
-      title: idp
-    idpPostBody:
-      properties:
-        name:
-          title: name
-          type: string
-        type:
-          $ref: '#/components/schemas/idpPostBody_type'
-        oidc_provider:
-          $ref: '#/components/schemas/oidc_provider_1'
-        allow_untrusted_certificates:
-          title: allow_untrusted_certificates
-          type: boolean
-        saml:
-          $ref: '#/components/schemas/saml_1'
-        service_provider:
-          $ref: '#/components/schemas/service_provider_1'
-      title: idpPostBody
-      type: object
-    idpPatchBody:
-      properties:
-        name:
-          title: name
-          type: string
-        type:
-          $ref: '#/components/schemas/idpPatchBody_type'
-        oidc_provider:
-          $ref: '#/components/schemas/oidc_provider_1'
-        allow_untrusted_certificates:
-          title: allow_untrusted_certificates
-          type: boolean
-        saml:
-          $ref: '#/components/schemas/saml_1'
-        service_provider:
-          $ref: '#/components/schemas/service_provider_1'
-      title: idpPatchBody
+          $ref: '#/components/schemas/idpSummary_type'
+      required:
+      - name
+      - org_id
+      - provider_id
+      - type
       type: object
     _organizations__orgId__identityProviders_get_200_response:
       example:
@@ -300,13 +493,13 @@ components:
           name: name
           provider_id: provider_id
           type:
-            name: saml
+            name: ldap
             description: description
         - org_id: org_id
           name: name
           provider_id: provider_id
           type:
-            name: saml
+            name: ldap
             description: description
       properties:
         data:
@@ -337,296 +530,539 @@ components:
             $ref: '#/components/schemas/_organizations__orgId__identityProviders__idpId__patch_400_response_errors_inner'
           type: array
       type: object
-    type:
-      example:
-        name: saml
-        description: description
+    samlProviderPostBody_type:
+      additionalProperties: false
       properties:
         description:
-          title: description
           type: string
         name:
           enum:
           - saml
-          - openid
-          title: name
           type: string
-      title: type
+      required:
+      - name
       type: object
-    claims_mapping:
+    samlProviderPostBody_service_provider_urls:
+      additionalProperties: false
       properties:
-        email_attribute:
-          title: email_attribute
+        sign_on:
           type: string
-        group_attribute:
-          title: group_attribute
+        sign_out:
           type: string
-        lastname_attribute:
-          title: lastname_attribute
-          type: string
+      required:
+      - sign_on
+      - sign_out
+      type: object
+    samlProviderPostBody_service_provider:
+      additionalProperties: false
+      properties:
+        urls:
+          $ref: '#/components/schemas/samlProviderPostBody_service_provider_urls'
+      required:
+      - urls
+      type: object
+    samlProviderPostBody_saml_claims_mapping:
+      additionalProperties: false
+      properties:
         username_attribute:
-          title: username_attribute
           type: string
         firstname_attribute:
-          title: firstname_attribute
           type: string
-      title: claims_mapping
+        lastname_attribute:
+          type: string
+        email_attribute:
+          type: string
+        group_attribute:
+          type: string
       type: object
-    saml:
+    samlProviderPostBody_saml:
+      additionalProperties: false
       properties:
-        issuer:
-          title: issuer
-          type: string
         audience:
-          title: audience
+          type: string
+        issuer:
           type: string
         public_key:
           items:
             type: string
-          title: public_key
+          maxItems: 2
+          minItems: 1
           type: array
         claims_mapping:
-          $ref: '#/components/schemas/claims_mapping'
-        sp_initiated_sso_enabled:
-          title: sp_initiated_sso_enabled
-          type: boolean
+          $ref: '#/components/schemas/samlProviderPostBody_saml_claims_mapping'
         idp_initiated_sso_enabled:
-          title: idp_initiated_sso_enabled
+          type: boolean
+        sp_initiated_sso_enabled:
+          type: boolean
+        use_composer_acs_url:
           type: boolean
         require_encrypted_saml_assertions:
-          title: require_encrypted_saml_assertions
           type: boolean
-      title: saml
+      required:
+      - audience
+      - issuer
+      - public_key
       type: object
-    urls:
+    ldapProviderPostBody_type:
+      additionalProperties: false
       properties:
-        token:
-          title: token
+        description:
           type: string
-        redirect:
-          title: redirect
+        name:
+          enum:
+          - ldap
           type: string
-        userinfo:
-          title: userinfo
-          type: string
-        authorize:
-          title: authorize
-          type: string
-      title: urls
+      required:
+      - name
       type: object
-    urls_1:
+    ldapProviderPostBody_connection:
+      additionalProperties: false
       properties:
-        register:
-          title: register
+        binddn:
           type: string
-      title: urls
+        connectTimeoutSeconds:
+          type: number
+        host:
+          type: string
+        operationTimeoutMs:
+          type: number
+        password:
+          type: string
+        port:
+          type: number
+        validatecert:
+          type: boolean
+      required:
+      - binddn
+      - connectTimeoutSeconds
+      - host
+      - operationTimeoutMs
+      - password
+      - port
       type: object
-    credentials:
+    ldapProviderPostBody_search_bases:
+      additionalProperties: false
+      properties:
+        group:
+          type: string
+        user:
+          type: string
+      required:
+      - group
+      - user
+      type: object
+    ldapProviderPostBody_filters:
+      additionalProperties: false
+      properties:
+        groupsByUsername:
+          type: string
+        userByUsername:
+          type: string
+      required:
+      - groupsByUsername
+      - userByUsername
+      type: object
+    ldapProviderPostBody_user_mapping:
+      additionalProperties: false
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+      required:
+      - email
+      - firstName
+      - id
+      - lastName
+      - username
+      type: object
+    ldapProviderPostBody_group_mapping:
+      additionalProperties: false
+      properties:
+        groupName:
+          type: string
+        id:
+          type: string
+      required:
+      - groupName
+      - id
+      type: object
+    openIDProviderManualPostBody_type:
+      additionalProperties: false
+      properties:
+        description:
+          type: string
+        name:
+          enum:
+          - openid
+          type: string
+      required:
+      - name
+      type: object
+    openIDProviderManualPostBody_oidc_provider_client_credentials:
+      additionalProperties: false
       properties:
         id:
-          title: id
           type: string
-      title: credentials
+        secret:
+          type: string
+      required:
+      - id
+      - secret
       type: object
-    client:
+    openIDProviderManualPostBody_oidc_provider_client:
+      additionalProperties: false
+      properties:
+        credentials:
+          $ref: '#/components/schemas/openIDProviderManualPostBody_oidc_provider_client_credentials'
+      required:
+      - credentials
+      type: object
+    openIDProviderManualPostBody_oidc_provider_urls:
+      additionalProperties: false
+      properties:
+        authorize:
+          type: string
+        token:
+          type: string
+        userinfo:
+          type: string
+      required:
+      - authorize
+      - token
+      - userinfo
+      type: object
+    openIDProviderManualPostBody_oidc_provider_claims_mapping:
+      additionalProperties: false
+      properties:
+        group_expression:
+          type: string
+      type: object
+    openIDProviderManualPostBody_oidc_provider:
+      additionalProperties: false
+      properties:
+        client:
+          $ref: '#/components/schemas/openIDProviderManualPostBody_oidc_provider_client'
+        issuer:
+          type: string
+        urls:
+          $ref: '#/components/schemas/openIDProviderManualPostBody_oidc_provider_urls'
+        group_scope:
+          type: string
+        claims_mapping:
+          $ref: '#/components/schemas/openIDProviderManualPostBody_oidc_provider_claims_mapping'
+      required:
+      - client
+      - urls
+      type: object
+    openIDProviderDynamicPostBody_oidc_provider_client_urls:
+      additionalProperties: false
+      properties:
+        register:
+          type: string
+      required:
+      - register
+      type: object
+    openIDProviderDynamicPostBody_oidc_provider_client_registration:
+      additionalProperties: false
+      properties:
+        authorization:
+          type: string
+      required:
+      - authorization
+      type: object
+    openIDProviderDynamicPostBody_oidc_provider_client_metadata:
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+      type: object
+    openIDProviderDynamicPostBody_oidc_provider_client:
+      additionalProperties: false
       properties:
         urls:
-          $ref: '#/components/schemas/urls_1'
+          $ref: '#/components/schemas/openIDProviderDynamicPostBody_oidc_provider_client_urls'
+        registration:
+          $ref: '#/components/schemas/openIDProviderDynamicPostBody_oidc_provider_client_registration'
+        metadata:
+          $ref: '#/components/schemas/openIDProviderDynamicPostBody_oidc_provider_client_metadata'
+      required:
+      - urls
+      type: object
+    openIDProviderDynamicPostBody_oidc_provider:
+      additionalProperties: false
+      properties:
+        client:
+          $ref: '#/components/schemas/openIDProviderDynamicPostBody_oidc_provider_client'
+        issuer:
+          type: string
+        urls:
+          $ref: '#/components/schemas/openIDProviderManualPostBody_oidc_provider_urls'
+        group_scope:
+          type: string
+        claims_mapping:
+          $ref: '#/components/schemas/openIDProviderManualPostBody_oidc_provider_claims_mapping'
+      required:
+      - client
+      - urls
+      type: object
+    samlProviderPatch_type:
+      additionalProperties: false
+      properties:
+        description:
+          type: string
+      type: object
+    samlProviderPatch_service_provider_urls:
+      additionalProperties: false
+      properties:
+        sign_on:
+          type: string
+        sign_out:
+          type: string
+      type: object
+    samlProviderPatch_service_provider:
+      additionalProperties: false
+      properties:
+        urls:
+          $ref: '#/components/schemas/samlProviderPatch_service_provider_urls'
+      type: object
+    samlProviderPatch_saml:
+      additionalProperties: false
+      properties:
+        audience:
+          type: string
+        issuer:
+          type: string
+        public_key:
+          items:
+            type: string
+          maxItems: 2
+          minItems: 1
+          type: array
+        claims_mapping:
+          $ref: '#/components/schemas/samlProviderPostBody_saml_claims_mapping'
+        idp_initiated_sso_enabled:
+          type: boolean
+        sp_initiated_sso_enabled:
+          type: boolean
+        use_composer_acs_url:
+          type: boolean
+        require_encrypted_saml_assertions:
+          type: boolean
+      type: object
+    ldapProviderPatch_connection:
+      additionalProperties: false
+      properties:
+        binddn:
+          type: string
+        connectTimeoutSeconds:
+          type: number
+        host:
+          type: string
+        operationTimeoutMs:
+          type: number
+        password:
+          type: string
+        port:
+          type: number
+        validatecert:
+          type: boolean
+      type: object
+    ldapProviderPatch_search_bases:
+      additionalProperties: false
+      properties:
+        group:
+          type: string
+        user:
+          type: string
+      type: object
+    ldapProviderPatch_filters:
+      additionalProperties: false
+      properties:
+        groupsByUsername:
+          type: string
+        userByUsername:
+          type: string
+      type: object
+    ldapProviderPatch_user_mapping:
+      additionalProperties: false
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        id:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+      type: object
+    ldapProviderPatch_group_mapping:
+      additionalProperties: false
+      properties:
+        groupName:
+          type: string
+        id:
+          type: string
+      type: object
+    openIDProviderPatch_oidc_provider_client_credentials:
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        secret:
+          type: string
+      type: object
+    openIDProviderPatch_oidc_provider_client_urls:
+      additionalProperties: false
+      properties:
+        register:
+          type: string
+      type: object
+    openIDProviderPatch_oidc_provider_client_registration:
+      additionalProperties: false
+      properties:
+        authorization:
+          type: string
+      type: object
+    openIDProviderPatch_oidc_provider_client:
+      additionalProperties: false
+      properties:
         credentials:
-          $ref: '#/components/schemas/credentials'
+          $ref: '#/components/schemas/openIDProviderPatch_oidc_provider_client_credentials'
+        urls:
+          $ref: '#/components/schemas/openIDProviderPatch_oidc_provider_client_urls'
+        registration:
+          $ref: '#/components/schemas/openIDProviderPatch_oidc_provider_client_registration'
+        metadata:
+          $ref: '#/components/schemas/openIDProviderDynamicPostBody_oidc_provider_client_metadata'
+      type: object
+    openIDProviderPatch_oidc_provider_urls:
+      additionalProperties: false
+      properties:
+        authorize:
+          type: string
+        token:
+          type: string
+        userinfo:
+          type: string
+      type: object
+    openIDProviderPatch_oidc_provider:
+      additionalProperties: false
+      properties:
+        client:
+          $ref: '#/components/schemas/openIDProviderPatch_oidc_provider_client'
+        issuer:
+          type: string
+        urls:
+          $ref: '#/components/schemas/openIDProviderPatch_oidc_provider_urls'
+        group_scope:
+          type: string
+        claims_mapping:
+          $ref: '#/components/schemas/openIDProviderManualPostBody_oidc_provider_claims_mapping'
+      type: object
+    openIDProviderGet_oidc_provider_client_credentials:
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        secret:
+          type: string
+      required:
+      - id
+      type: object
+    openIDProviderGet_oidc_provider_client:
+      additionalProperties: false
+      properties:
+        credentials:
+          $ref: '#/components/schemas/openIDProviderGet_oidc_provider_client_credentials'
+        urls:
+          $ref: '#/components/schemas/openIDProviderDynamicPostBody_oidc_provider_client_urls'
+        registration:
+          $ref: '#/components/schemas/openIDProviderPatch_oidc_provider_client_registration'
+        metadata:
+          $ref: '#/components/schemas/openIDProviderDynamicPostBody_oidc_provider_client_metadata'
         token_endpoint_auth_methods_supported:
           items:
             type: string
-          title: token_endpoint_auth_methods_supported
           type: array
-      title: client
+      required:
+      - credentials
       type: object
-    oidc_provider:
+    openIDProviderGet_oidc_provider_urls:
+      additionalProperties: false
       properties:
-        urls:
-          $ref: '#/components/schemas/urls'
-        client:
-          $ref: '#/components/schemas/client'
-        issuer:
-          title: issuer
+        authorize:
           type: string
-        group_scope:
-          title: group_scope
+        redirect:
           type: string
-      title: oidc_provider
+        token:
+          type: string
+        userinfo:
+          type: string
+      required:
+      - authorize
+      - redirect
+      - token
+      - userinfo
       type: object
-    urls_2:
+    openIDProviderGet_oidc_provider:
+      additionalProperties: false
+      properties:
+        client:
+          $ref: '#/components/schemas/openIDProviderGet_oidc_provider_client'
+        issuer:
+          type: string
+        urls:
+          $ref: '#/components/schemas/openIDProviderGet_oidc_provider_urls'
+        group_scope:
+          type: string
+        claims_mapping:
+          $ref: '#/components/schemas/openIDProviderManualPostBody_oidc_provider_claims_mapping'
+      required:
+      - client
+      - issuer
+      - urls
+      type: object
+    openIDProviderGet_service_provider_urls:
+      additionalProperties: false
       properties:
         sign_on:
-          title: sign_on
           type: string
-        sign_out:
-          description: only available for SAML
-          title: sign_out
-          type: string
-      title: urls
+      required:
+      - sign_on
       type: object
-      example: null
-    service_provider:
+    openIDProviderGet_service_provider:
+      additionalProperties: false
       properties:
         urls:
-          $ref: '#/components/schemas/urls_2'
-      title: service_provider
+          $ref: '#/components/schemas/openIDProviderGet_service_provider_urls'
+      required:
+      - urls
       type: object
-      example: null
-    idpCommonProps:
-      properties:
-        service_provider:
-          $ref: '#/components/schemas/service_provider'
-      title: idpCommonProps
-      type: object
-      example: null
-    idpPostBody_type:
+    idpSummary_type:
+      additionalProperties: false
+      example:
+        name: ldap
+        description: description
       properties:
         description:
-          title: description
           type: string
         name:
           enum:
-          - saml
+          - ldap
           - openid
-          title: name
+          - saml
           type: string
-      type: object
-    credentials_1:
-      properties:
-        id:
-          title: id
-          type: string
-        secret:
-          title: secret
-          type: string
-      title: credentials
-      type: object
-    client_1:
-      description: either contains urls or credentials (mutually exclusive)
-      properties:
-        urls:
-          $ref: '#/components/schemas/urls_1'
-        credentials:
-          $ref: '#/components/schemas/credentials_1'
-      title: client
-      type: object
-    urls_3:
-      properties:
-        authorize:
-          title: authorize
-          type: string
-        token:
-          title: token
-          type: string
-        userinfo:
-          title: userinfo
-          type: string
-      title: urls
-      type: object
-    claims_mapping_1:
-      properties:
-        group_expression:
-          title: group_expression
-          type: string
-      title: claims_mapping
-      type: object
-    oidc_provider_1:
-      properties:
-        client:
-          $ref: '#/components/schemas/client_1'
-        issuer:
-          title: issuer
-          type: string
-        urls:
-          $ref: '#/components/schemas/urls_3'
-        group_scope:
-          title: group_scope
-          type: string
-        claims_mapping:
-          $ref: '#/components/schemas/claims_mapping_1'
-      title: oidc_provider
-      type: object
-    claims_mapping_2:
-      properties:
-        username_attribute:
-          description: "Field name in the SAML AttributeStatements that maps to username.\
-            \ By default, the NameID attribute in the SAML assertion is used."
-          title: username_attribute
-          type: string
-        firstname_attribute:
-          description: "Field name in the SAML AttributeStatements that maps to First\
-            \ Name. By default, the firstname attribute in the SAML assertion is used."
-          title: firstname_attribute
-          type: string
-        lastname_attribute:
-          description: "Field name in the SAML AttributeStatements that maps to Last\
-            \ Name. By default, the lastname attribute in the SAML assertion is used."
-          title: lastname_attribute
-          type: string
-        email_attribute:
-          description: "Field name in the SAML AttributeStatements that maps to Email.\
-            \ By default, the email attribute in the SAML assertion is used."
-          title: email_attribute
-          type: string
-        group_attribute:
-          description: Field name in the SAML AttributeStatements that maps to Group.
-          title: group_attribute
-          type: string
-      title: claims_mapping
-      type: object
-    saml_1:
-      properties:
-        issuer:
-          title: issuer
-          type: string
-        public_key:
-          items:
-            type: string
-          title: public_key
-          type: array
-        audience:
-          title: audience
-          type: string
-        claims_mapping:
-          $ref: '#/components/schemas/claims_mapping_2'
-        require_encrypted_saml_assertions:
-          title: require_encrypted_saml_assertions
-          type: boolean
-        idp_initiated_sso_enabled:
-          title: idp_initiated_sso_enabled
-          type: boolean
-        sp_initiated_sso_enabled:
-          title: sp_initiated_sso_enabled
-          type: boolean
-      title: saml
-      type: object
-    urls_4:
-      properties:
-        sign_on:
-          description: The Anypoint Platform URL where users must sign in.
-          title: sign_on
-          type: string
-        sign_out:
-          description: "URL to redirect sign out requests, so users both sign out\
-            \ of the Anypoint Platform and have their SAML user's status set to signed\
-            \ out."
-          title: sign_out
-          type: string
-      title: urls
-      type: object
-    service_provider_1:
-      properties:
-        urls:
-          $ref: '#/components/schemas/urls_4'
-      title: service_provider
-      type: object
-    idpPatchBody_type:
-      properties:
-        description:
-          title: description
-          type: string
+      required:
+      - name
       type: object
   securitySchemes:
     bearerAuth:

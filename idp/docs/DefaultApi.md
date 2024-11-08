@@ -249,7 +249,7 @@ import (
 func main() {
     orgId := "orgId_example" // string | The ID of the organization in GUID format
     idpId := "idpId_example" // string | The ID of the Identity Provider in GUID format
-    idpPatchBody := *openapiclient.NewIdpPatchBody() // IdpPatchBody |  (optional)
+    idpPatchBody := openapiclient.idpPatchBody{LdapProviderPatch: openapiclient.NewLdapProviderPatch()} // IdpPatchBody |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -323,7 +323,7 @@ import (
 
 func main() {
     orgId := "orgId_example" // string | The ID of the organization in GUID format
-    idpPostBody := *openapiclient.NewIdpPostBody() // IdpPostBody |  (optional)
+    idpPostBody := openapiclient.idpPostBody{LdapProviderPostBody: openapiclient.NewLdapProviderPostBody("Name_example", *openapiclient.NewLdapProviderPostBodyType("Name_example"), *openapiclient.NewLdapProviderPostBodyConnection("Binddn_example", float32(123), "Host_example", float32(123), "Password_example", float32(123)), *openapiclient.NewLdapProviderPostBodySearchBases("Group_example", "User_example"), *openapiclient.NewLdapProviderPostBodySearchBases("Group_example", "User_example"), *openapiclient.NewLdapProviderPostBodyFilters("GroupsByUsername_example", "UserByUsername_example"), *openapiclient.NewLdapProviderPostBodyUserMapping("Email_example", "FirstName_example", "Id_example", "LastName_example", "Username_example"), *openapiclient.NewLdapProviderPostBodyGroupMapping("GroupName_example", "Id_example"))} // IdpPostBody |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
